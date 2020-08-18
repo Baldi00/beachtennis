@@ -160,6 +160,10 @@
                     $query = "SELECT * FROM coppia_girone WHERE codEvento = ".$codEvento." AND under = ".$under." AND numCoppie=2 ORDER BY codGirone,pos ASC";
                     $resultCoppiaGirone = $connessione->query($query);
 
+                    $query = "SELECT * FROM coppia_girone WHERE codEvento = ".$codEvento." AND under = ".$under." AND numCoppie>2";
+                    $resultTemp = $connessione->query($query);
+                    $primoGirone = mysqli_fetch_assoc($resultTemp)["codGirone"];
+
                     //Check if gironi had already been set
                     if($resultCoppiaGirone->num_rows == 0) {
 
@@ -182,7 +186,11 @@
                             $resultPart2 = $connessione->query($query);
                             $linePart2 = mysqli_fetch_assoc($resultPart2);
 
-                            echo '<div draggable="true" id="'.$lineCoppia["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["annoNascita"].' - '.$linePart2["annoNascita"].')</div>';
+                            $query = "SELECT * FROM coppia_girone WHERE codEvento = ".$codEvento." AND under = ".$under." AND codCoppia = ".$lineCoppia["codCoppia"]." AND numCoppie>2";
+                            $resultTemp = $connessione->query($query);
+                            $codGirone = mysqli_fetch_assoc($resultTemp)["codGirone"];
+
+                            echo '<div draggable="true" id="'.$lineCoppia["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["annoNascita"].' - '.$linePart2["annoNascita"].') [G'.($codGirone-$primoGirone+1).']</div>';
                         }
                         echo '  </div>
                                 <div class="draggablecontainer" style="width: 60%; float: left; text-align: center">';
@@ -227,7 +235,11 @@
                                 $resultPart2 = $connessione->query($query);
                                 $linePart2 = mysqli_fetch_assoc($resultPart2);
 
-                                echo '<div draggable="true" id="'.$lineCoppia["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["annoNascita"].' - '.$linePart2["annoNascita"].')</div>';
+                                $query = "SELECT * FROM coppia_girone WHERE codEvento = ".$codEvento." AND under = ".$under." AND codCoppia = ".$lineCoppia["codCoppia"]." AND numCoppie>2";
+                                $resultTemp = $connessione->query($query);
+                                $codGirone = mysqli_fetch_assoc($resultTemp)["codGirone"];
+
+                                echo '<div draggable="true" id="'.$lineCoppia["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["annoNascita"].' - '.$linePart2["annoNascita"].') [G'.($codGirone-$primoGirone+1).']</div>';
                             }
                         }
 
@@ -250,8 +262,12 @@
                                 $query = "SELECT * FROM giocatori WHERE codGiocatore = ".$lineCoppia["part2"];
                                 $resultPart2 = $connessione->query($query);
                                 $linePart2 = mysqli_fetch_assoc($resultPart2);
+
+                                $query = "SELECT * FROM coppia_girone WHERE codEvento = ".$codEvento." AND under = ".$under." AND codCoppia = ".$lineCoppia["codCoppia"]." AND numCoppie>2";
+                                $resultTemp = $connessione->query($query);
+                                $codGirone = mysqli_fetch_assoc($resultTemp)["codGirone"];
                                 
-                                echo '<div draggable="true" id="'.$lineCoppiaGirone["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["annoNascita"].' - '.$linePart2["annoNascita"].')</div>';
+                                echo '<div draggable="true" id="'.$lineCoppiaGirone["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["annoNascita"].' - '.$linePart2["annoNascita"].') [G'.($codGirone-$primoGirone+1).']</div>';
                             }
                         }
                         echo '</div>';

@@ -25,7 +25,7 @@
         for ($i=0; $i < $numGironi; $i++) { 
             $line = mysqli_fetch_assoc($result);
             $codGirone = $line["codGirone"];
-            $query = "SELECT * FROM partite WHERE codEvento = ".$codEvento." AND under = ".$under." ORDER BY codPartita";
+            $query = "SELECT * FROM partite WHERE codEvento = ".$codEvento." AND under = ".$under." AND codGirone = ".$codGirone." ORDER BY codPartita";
             $resultPartite = $connessione->query($query);
             
             $part1 = mysqli_fetch_assoc($resultPartite);

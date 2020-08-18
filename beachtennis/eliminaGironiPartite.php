@@ -18,12 +18,18 @@
         $connessione->query($query);
         $query = "DELETE FROM vincitori WHERE codEvento = ".$codEvento." AND under = ".$under;
         $connessione->query($query);
+        $query = "UPDATE `coppia_evento` SET `punt` = '0' WHERE `codEvento` = ".$codEvento." AND `under` = ".$under;
+        $connessione->query($query);
     } else if($reset == "partite") {
         $query = "DELETE FROM partite WHERE codEvento = ".$codEvento." AND under = ".$under;
         $connessione->query($query);
         $query = "DELETE FROM coppia_girone WHERE codEvento = ".$codEvento." AND under = ".$under;
         $connessione->query($query);
         $query = "DELETE FROM vincitori WHERE codEvento = ".$codEvento." AND under = ".$under;
+        $connessione->query($query);
+        $query = "DELETE FROM gironi WHERE codEvento = ".$codEvento." AND under = ".$under." AND numCoppie = 2";
+        $connessione->query($query);
+        $query = "UPDATE `coppia_evento` SET `punt` = '0' WHERE `codEvento` = ".$codEvento." AND `under` = ".$under;
         $connessione->query($query);
     }
 

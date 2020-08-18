@@ -20,6 +20,19 @@
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 
+    <script type="text/javascript">
+        function nomeCoppiaAutomatico() {
+            var select1 = document.getElementsByName("part1")[0];
+            var cogn1 = select1.options[select1.selectedIndex].innerHTML.split(" ")[0];
+
+            var select2 = document.getElementsByName("part2")[0];
+            var cogn2 = select2.options[select2.selectedIndex].innerHTML.split(" ")[0];
+
+            document.getElementsByName("nome")[0].value = cogn1 + "-" + cogn2;
+        }
+
+    </script>
+
     <title>Beach Tennis</title>
 </head>
 <body>
@@ -108,6 +121,11 @@
                 </tr>
             </tbody>
         </table>
+        <div class="row" style="margin-top: 20px; margin-bottom: 20px; text-align: center">
+            <div class="col-sm" colspan="2">
+                <button class="btn btn-primary" onclick="nomeCoppiaAutomatico();" style="width: 30%;">Nome coppia automatico</button>
+            </div>
+        </div>
 
         <div class="row" style="margin: 10px;">
             <div class="col-sm" colspan="2"><input class="btn btn-primary" type="submit" value="Inserisci" style="width: 100%"></div>
