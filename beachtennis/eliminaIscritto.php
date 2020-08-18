@@ -4,7 +4,7 @@
     if($connessione->connect_errno)
         die("<h1>Errore connessione al database</h1>");
     
-    $query = "SELECT * FROM Giocatori";
+    $query = "SELECT * FROM Giocatori ORDER BY nome";
 
     $result = $connessione->query($query);
 ?>

@@ -25,6 +25,21 @@
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 
+    <script type="text/javascript">
+        function nomeCoppiaAutomatico(index) {
+            var select1 = document.getElementsByName("part1"+index)[0];
+            var part1 = select1.options[select1.selectedIndex].innerHTML;
+            var cogn1 = part1.substring(part1.indexOf(" ")+1, part1.lastIndexOf("(")-1);
+
+            var select2 = document.getElementsByName("part2"+index)[0];
+            var part2 = select2.options[select2.selectedIndex].innerHTML;
+            var cogn2 = part2.substring(part2.indexOf(" ")+1, part2.lastIndexOf("(")-1);
+
+            document.getElementsByName("nome"+index)[0].value = cogn1 + "-" + cogn2;
+        }
+
+    </script>
+
     <title>Beach Tennis</title>
 </head>
 <body>
@@ -77,6 +92,7 @@
                 <th scope="col">Partecipante 1</th>
                 <th scope="col">Partecipante 2</th>
                 <th scope="col">Under</th>
+                <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -133,7 +149,9 @@
                         echo '    </select>
                                 </div></td> ';
 
-                        echo "  <td><input required placeholder='Under' class='form-control' type='number' min=0 style='width: 100%; text-align: center' name='under".$i."' value='".$line["under"]."'></td>
+                        echo "  <td><input required placeholder='Under' class='form-control' type='number' min=0 style='width: 100%; text-align: center' name='under".$i."' value='".$line["under"]."'></td>";
+
+                        echo "  <td><a style='cursor: pointer; color: #007bff' onclick='nomeCoppiaAutomatico(".$i.")'>Nome automatico</a></td>
                                 </tr>";
                     }
                 ?>

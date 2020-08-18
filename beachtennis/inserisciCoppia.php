@@ -23,10 +23,12 @@
     <script type="text/javascript">
         function nomeCoppiaAutomatico() {
             var select1 = document.getElementsByName("part1")[0];
-            var cogn1 = select1.options[select1.selectedIndex].innerHTML.split(" ")[0];
+            var part1 = select1.options[select1.selectedIndex].innerHTML;
+            var cogn1 = part1.substring(part1.indexOf(" ")+1, part1.lastIndexOf("(")-1);
 
             var select2 = document.getElementsByName("part2")[0];
-            var cogn2 = select2.options[select2.selectedIndex].innerHTML.split(" ")[0];
+            var part2 = select2.options[select2.selectedIndex].innerHTML;
+            var cogn2 = part2.substring(part2.indexOf(" ")+1, part2.lastIndexOf("(")-1);
 
             document.getElementsByName("nome")[0].value = cogn1 + "-" + cogn2;
         }
@@ -88,7 +90,7 @@
                                   <select required class="form-control" name="part1">
                                     <option value="" selected>Partecipante 1</option>';
 
-                        $resultGiocatori = $connessione->query("SELECT * FROM giocatori");
+                        $resultGiocatori = $connessione->query("SELECT * FROM giocatori ORDER BY nome");
 
                         for ($j=0; $j < $resultGiocatori->num_rows; $j++) {
                             $lineGiocatori = mysqli_fetch_assoc($resultGiocatori); 
