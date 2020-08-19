@@ -106,5 +106,28 @@
                     </table>';
         }
     ?>
+
+    <script type="text/javascript">
+        var righe = document.getElementsByTagName('tr');
+        for (var i = 1; i < righe.length; i++) {
+            var colonne = righe[i].getElementsByTagName('td');
+            var data1 = colonne[0].innerHTML.substring(colonne[0].innerHTML.lastIndexOf("(")+1,colonne[0].innerHTML.lastIndexOf(")"));
+            var data2 = colonne[1].innerHTML.substring(colonne[1].innerHTML.lastIndexOf("(")+1,colonne[1].innerHTML.lastIndexOf(")"));
+            
+            if(data1<data2) {
+                var birthday = new Date(data1)
+            } else {
+                var birthday = new Date(data2)
+            }
+
+            var ageDifMs = Date.now() - birthday.getTime();
+            var ageDate = new Date(ageDifMs); // miliseconds from epoch
+            var age = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+            if(age>colonne[2].innerHTML)
+                righe[i].style = "text-align: center; color: red";
+        }
+
+    </script>
 </body>
 </html>

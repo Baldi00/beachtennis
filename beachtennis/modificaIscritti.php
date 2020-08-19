@@ -94,7 +94,7 @@
                                     <input type='hidden' name='codGiocatore".$i."' value='".$line["codGiocatore"]."'>
                                     <th scope='row'><input placeholder='Nome' class='form-control' type='text' style='width: 100%; text-align: center' name='nome".$i."' value='".$line["nome"]."' required></th>";
 
-                        echo "  <td><input required placeholder='Anno di Nascita' class='form-control' type='number' min=1900 style='width: 100%; text-align: center' name='anno".$i."' value='".$line["annoNascita"]."'></td>";
+                        echo "  <td><input required placeholder='Anno di Nascita' class='form-control' type='date' style='width: 100%; text-align: center' name='anno".$i."' value='".$line["annoNascita"]."'></td>";
 
                         echo "  <td><input placeholder='Numero di Telefono' class='form-control' type='text' style='width: 100%; text-align: center' name='numero".$i."' value='".$line["numeroTelefono"]."'></td>";
 

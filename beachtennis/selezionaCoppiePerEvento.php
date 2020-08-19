@@ -33,7 +33,7 @@
     
     $nomeEvento = mysqli_fetch_assoc($connessione->query("SELECT * FROM Eventi WHERE codEvento = ".$codEvento))["nomeEvento"];
 
-    $query = "SELECT * FROM Coppie WHERE under = ".$under;
+    $query = "SELECT * FROM Coppie WHERE under <= ".$under;
     $result = $connessione->query($query);
 
 ?>
@@ -98,6 +98,7 @@
                 <th scope="col">Nome</th>
                 <th scope="col">Partecipante 1</th>
                 <th scope="col">Partecipante 2</th>
+                <th scope="col">Under</th>
                 <th scope="col"></th>
                 </tr>
             </thead>
@@ -127,6 +128,7 @@
                                     <th scope='row'>".$line["nome"]."</th>
                                     <td>".$part1."</td>
                                     <td>".$part2."</td>
+                                    <td>".$line["under"]."</td>
                                     <td><div class='custom-control custom-checkbox'>
                                         <input type='hidden' name='codCoppia".$i."' value='".$line["codCoppia"]."'>";
                         if($result2->num_rows==0)

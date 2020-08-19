@@ -38,6 +38,33 @@
             document.getElementsByName("nome"+index)[0].value = cogn1 + "-" + cogn2;
         }
 
+        function underAutomatico(index) {
+
+            var select1 = document.getElementsByName("part1"+index)[0];
+            var part1 = select1.options[select1.selectedIndex].innerHTML;
+            var data1 = part1.substring(part1.lastIndexOf("(")+1, part1.lastIndexOf(")"));
+
+            var select2 = document.getElementsByName("part2"+index)[0];
+            var part2 = select2.options[select2.selectedIndex].innerHTML;
+            var data2 = part2.substring(part2.lastIndexOf("(")+1, part2.lastIndexOf(")"));
+
+            var under = document.getElementsByName("under"+index)[0];
+
+            if(data1<data2) {
+                var birthday = new Date(data1)
+            } else {
+                var birthday = new Date(data2)
+            }
+
+            var ageDifMs = Date.now() - birthday.getTime();
+            var ageDate = new Date(ageDifMs); // miliseconds from epoch
+            var age = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+            under.value = age;
+
+            checkUnders();
+        }
+
     </script>
 
     <title>Beach Tennis</title>
@@ -92,6 +119,7 @@
                 <th scope="col">Partecipante 1</th>
                 <th scope="col">Partecipante 2</th>
                 <th scope="col">Under</th>
+                <th scope="col"></th>
                 <th scope="col"></th>
                 </tr>
             </thead>
@@ -149,9 +177,11 @@
                         echo '    </select>
                                 </div></td> ';
 
-                        echo "  <td><input required placeholder='Under' class='form-control' type='number' min=0 style='width: 100%; text-align: center' name='under".$i."' value='".$line["under"]."'></td>";
+                        echo "  <td><input required placeholder='Under' class='form-control' type='number' min=0 style='width: 100%; text-align: center' onchange='checkUnders(); return false;' name='under".$i."' value='".$line["under"]."'></td>";
 
-                        echo "  <td><a style='cursor: pointer; color: #007bff' onclick='nomeCoppiaAutomatico(".$i.")'>Nome automatico</a></td>
+                        echo "  <td><a style='cursor: pointer; color: #007bff' onclick='nomeCoppiaAutomatico(".$i.")'>Nome auto</a></td>";
+
+                        echo "  <td><a style='cursor: pointer; color: #007bff' onclick='underAutomatico(".$i.")'>Under auto</a></td>
                                 </tr>";
                     }
                 ?>
@@ -163,6 +193,38 @@
         </div>
 
     </form>
+
+    <script type="text/javascript">
+        function checkUnders() {
+            var righe = document.getElementsByTagName('tr');
+            for (var i = 1; i < righe.length; i++) {
+                var colonne = righe[i].getElementsByTagName('td');
+                var value1 = colonne[0].getElementsByTagName('select')[0].options[colonne[0].getElementsByTagName('select')[0].selectedIndex].text;
+                var value2 = colonne[1].getElementsByTagName('select')[0].options[colonne[1].getElementsByTagName('select')[0].selectedIndex].text;
+                var under = colonne[2].getElementsByTagName('input')[0].value;
+
+                var data1 = value1.substring(value1.lastIndexOf("(")+1,value1.lastIndexOf(")"));
+                var data2 = value2.substring(value2.lastIndexOf("(")+1,value2.lastIndexOf(")"));
+                
+                if(data1<data2) {
+                    var birthday = new Date(data1)
+                } else {
+                    var birthday = new Date(data2)
+                }
+
+                var ageDifMs = Date.now() - birthday.getTime();
+                var ageDate = new Date(ageDifMs); // miliseconds from epoch
+                var age = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+                if(age>under)
+                    righe[i].style = "text-align: center; background-color: #ffcccc;";
+                else
+                    righe[i].style = "text-align: center;";
+            }
+        }
+
+        checkUnders();
+    </script>
 
 </body>
 </html>

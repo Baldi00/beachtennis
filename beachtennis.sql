@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Ago 15, 2020 alle 17:49
+-- Creato il: Ago 19, 2020 alle 13:28
 -- Versione del server: 10.4.11-MariaDB
 -- Versione PHP: 7.4.1
 
@@ -88,9 +88,9 @@ CREATE TABLE `eventi` (
 CREATE TABLE `giocatori` (
   `codGiocatore` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
-  `annoNascita` int(11) NOT NULL,
-  `numeroTelefono` varchar(100) NOT NULL,
-  `iscritto` varchar(100) NOT NULL
+  `annoNascita` date NOT NULL,
+  `numeroTelefono` varchar(100) DEFAULT NULL,
+  `iscritto` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -146,7 +146,7 @@ CREATE TABLE `vincitori` (
 -- Indici per le tabelle `coppia_evento`
 --
 ALTER TABLE `coppia_evento`
-  ADD PRIMARY KEY (`codCoppia`,`codEvento`),
+  ADD PRIMARY KEY (`codCoppia`,`codEvento`,`under`) USING BTREE,
   ADD KEY `FK_Coppia_Evento_Evento` (`codEvento`);
 
 --

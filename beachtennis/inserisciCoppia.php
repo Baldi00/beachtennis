@@ -33,6 +33,31 @@
             document.getElementsByName("nome")[0].value = cogn1 + "-" + cogn2;
         }
 
+        function underAutomatico() {
+
+            var select1 = document.getElementsByName("part1")[0];
+            var part1 = select1.options[select1.selectedIndex].innerHTML;
+            var data1 = part1.substring(part1.lastIndexOf("(")+1, part1.lastIndexOf(")"));
+
+            var select2 = document.getElementsByName("part2")[0];
+            var part2 = select2.options[select2.selectedIndex].innerHTML;
+            var data2 = part2.substring(part2.lastIndexOf("(")+1, part2.lastIndexOf(")"));
+
+            var under = document.getElementsByName("under")[0];
+
+            if(data1<data2) {
+                var birthday = new Date(data1)
+            } else {
+                var birthday = new Date(data2)
+            }
+
+            var ageDifMs = Date.now() - birthday.getTime();
+            var ageDate = new Date(ageDifMs); // miliseconds from epoch
+            var age = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+            under.value = age;
+        }
+
     </script>
 
     <title>Beach Tennis</title>
@@ -125,7 +150,8 @@
         </table>
         <div class="row" style="margin-top: 20px; margin-bottom: 20px; text-align: center">
             <div class="col-sm" colspan="2">
-                <button class="btn btn-primary" onclick="nomeCoppiaAutomatico();" style="width: 30%;">Nome coppia automatico</button>
+                <button class="btn btn-primary" onclick="nomeCoppiaAutomatico(); return false;" style="width: 30%;">Nome coppia automatico</button>
+                <button class="btn btn-primary" onclick="underAutomatico(); return false;" style="width: 30%; margin-left: 10px;">Under automatico</button>
             </div>
         </div>
 
