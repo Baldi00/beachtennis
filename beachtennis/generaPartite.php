@@ -1,4 +1,171 @@
 <?php
+
+    function normalizeMatches($matches) {
+        for ($i=0; $i < count($matches); $i++) { 
+            $pairs = $matches[$i];
+            if ($pairs[0] > $pairs[1]) {
+                $matches[$i][0] = $pairs[1];
+                $matches[$i][1] = $pairs[0];
+            }
+        }
+
+        return $matches;
+    }
+
+    function printMatches($matches) {
+        for ($i = 0; $i < count($matches); $i++) { 
+            echo 'coppia #' . ($i+1) . ':  ' . $matches[$i][0] . '-' . $matches[$i][1] . '<br>';
+        }
+    }
+    
+    function shouldMaxCounterBeIncremented($counters, $maxCounter, $numPerGirone) {
+        for ($i = 0; $i < $numPerGirone; $i++) {
+            if ($counters[$i] != $maxCounter) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function isInLastPairs($lastMatch, $currentPair) {
+        return $currentPair == $lastMatch[0] || $currentPair == $lastMatch[1];
+    }
+
+    function isInMatches($matches, $pairs) {
+        $firstPair = $pairs[0];
+        $secondPair = $pairs[1];
+
+        for ($i = 0; $i < count($matches); $i++) {
+            if ( ($firstPair == $matches[$i][0] || $firstPair == $matches[$i][1]) &&
+                ($secondPair == $matches[$i][0] || $secondPair == $matches[$i][1]))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function creaPartitePerGirone($numPerGirone, $primoGirone, $indiceGirone, $connessione) {
+
+        $matches = array();
+        $maxMatches = ($numPerGirone*($numPerGirone-1))/2;
+        $counters = array();
+        $maxCounter = 1;
+        $lastMatch = array();
+        
+        $pairs = array();
+
+        $currentMatch = array();
+            
+        $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$indiceGirone)." ORDER BY pos ASC";
+        $resultCoppiaGirone = $connessione->query($query);
+
+        $codGirone = $primoGirone;
+
+        for ($i=0; $i < $numPerGirone; $i++) { 
+            //Init pairs
+            array_push($pairs, mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"]);
+
+            //Init counters
+            array_push($counters, 0);
+        }
+
+        // init last pairs
+        $lastMatch[0] = -1;
+        $lastMatch[1] = -1;
+
+        for ($i=0; $i < $maxMatches; $i++) { 
+            
+            // Find first pair
+            for ($j=0; $j < $numPerGirone; $j++) { 
+                if ($counters[$j] < $maxCounter) {
+
+                    $currentPair = $pairs[$j];
+                    $isInLastPairs = isInLastPairs($lastMatch, $currentPair);
+
+                    // maybe useless check
+                    if (!$isInLastPairs || $numPerGirone < 5) {
+                        $currentMatch[0] = $currentPair;
+                        $counters[$j]++;
+                        break;
+                    }
+                }
+            }
+
+            $incrementMaxCounter = shouldMaxCounterBeIncremented($counters, $maxCounter, $numPerGirone);
+            if ($incrementMaxCounter) {
+                $maxCounter++;
+            }
+
+            // Find second pair
+            for ($j=0; $j < $numPerGirone; $j++) { 
+                if ($counters[$j] < $maxCounter) {
+
+                    $currentPair = $pairs[$j];
+                    $isInLastPairs = isInLastPairs($lastMatch, $currentPair);
+
+                    if (!$isInLastPairs || $numPerGirone < 5) {
+
+                        $currentMatch[1] = $currentPair;
+                        
+                        $isInMatches = isInMatches($matches, $currentMatch);
+                        if (!$isInMatches) {
+                            $counters[$j]++;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // add current match to matches
+            array_push($matches, $currentMatch);
+
+            // override last pairs
+            $lastMatch = $currentMatch;
+
+            $incrementMaxCounter = shouldMaxCounterBeIncremented($counters, $maxCounter, $numPerGirone);
+            if ($incrementMaxCounter) {
+                $maxCounter++;
+            }
+
+            // echo 'coppia #' . ($i+1) . ':  ' . $currentMatch[0] . '-' . $currentMatch[1] . '<br>';
+            // for ($j = 0; $j < $numPerGirone; $j++) {
+            //     echo "coppia: " . $pairs[$j] . "       counter: " . $counters[$j] . "<br>";
+            // }
+            // echo "<br>";
+
+        }
+
+        return normalizeMatches($matches);
+    }
+
+    function creaPartite($numPerGirone, $primoGirone, $connessione, $numGironi) {
+        $matches = array();
+        for ($i=0; $i < $numGironi; $i++) { 
+            array_push($matches, creaPartitePerGirone($numPerGirone, $primoGirone, $i, $connessione));
+        }
+        return $matches;
+    }
+
+    function inserisciPartiteNelDatabase($matches, $primoGirone, $codEvento, $under, $coppiePerGirone, $connessione) {
+        for ($numCoppia=0; $numCoppia < $coppiePerGirone; $numCoppia++) {
+            for ($numGirone=0; $numGirone < count($matches); $numGirone++) { 
+                $codGirone = $primoGirone+$numGirone;
+
+                $coppia1 = $matches[$numGirone][$numCoppia][0];
+                $coppia2 = $matches[$numGirone][$numCoppia][1];
+
+                $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) 
+                          VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
+                $connessione->query($query);
+            }
+        }
+    }
+
+?>
+
+<?php
     $connessione = new mysqli("localhost","root","","beachtennis");
 
     if($connessione->connect_errno)
@@ -73,338 +240,9 @@
                 $connessione->query($query);
             }
         }
-    } else if($numPerGirone==3) {
-        for ($i=0; $i < $numGironi; $i++) {
-            //A vs B
-            for ($i=0; $i < $numGironi; $i++) {
-                
-                $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-                $resultCoppiaGirone = $connessione->query($query);
-
-                $codGirone = $primoGirone+$i;
-                $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-                $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-                $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-                $connessione->query($query);
-            }
-
-            //A vs C
-            for ($i=0; $i < $numGironi; $i++) {
-                
-                $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-                $resultCoppiaGirone = $connessione->query($query);
-
-                $codGirone = $primoGirone+$i;
-                $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-                mysqli_fetch_assoc($resultCoppiaGirone); //Read useless second row
-
-                $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-                $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-                $connessione->query($query);
-            }
-
-            //B vs C
-            for ($i=0; $i < $numGironi; $i++) {
-                
-                $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-                $resultCoppiaGirone = $connessione->query($query);
-
-                mysqli_fetch_assoc($resultCoppiaGirone); //Read useless first row
-
-                $codGirone = $primoGirone+$i;
-                $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-                $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-                $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-                $connessione->query($query);
-            }
-
-        }
-    } else if ($numPerGirone==4) {
-        //A vs B
-        for ($i=0; $i < $numGironi; $i++) {
-            
-            $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-            $resultCoppiaGirone = $connessione->query($query);
-
-            $codGirone = $primoGirone+$i;
-            $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-            $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-            $connessione->query($query);
-        }
-
-        //C vs D
-        for ($i=0; $i < $numGironi; $i++) {
-            
-            $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-            $resultCoppiaGirone = $connessione->query($query);
-
-            //Fetch first 2
-            mysqli_fetch_assoc($resultCoppiaGirone);
-            mysqli_fetch_assoc($resultCoppiaGirone);
-
-            $codGirone = $primoGirone+$i;
-            $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-            $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-            $connessione->query($query);
-        }
-
-        //A vs C
-        for ($i=0; $i < $numGironi; $i++) {
-            
-            $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-            $resultCoppiaGirone = $connessione->query($query);
-
-            $codGirone = $primoGirone+$i;
-            $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless second row
-
-            $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-            $connessione->query($query);
-        }
-
-        //B vs D
-        for ($i=0; $i < $numGironi; $i++) {
-            
-            $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-            $resultCoppiaGirone = $connessione->query($query);
-
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless first row
-
-            $codGirone = $primoGirone+$i;
-            $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless third row
-
-            $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-            $connessione->query($query);
-        }
-
-        //A vs D
-        for ($i=0; $i < $numGironi; $i++) {
-            
-            $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-            $resultCoppiaGirone = $connessione->query($query);
-
-            $codGirone = $primoGirone+$i;
-            $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless second row
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless third row
-
-            $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-            $connessione->query($query);
-        }
-
-        //B vs C
-        for ($i=0; $i < $numGironi; $i++) {
-            
-            $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-            $resultCoppiaGirone = $connessione->query($query);
-
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless first row
-
-            $codGirone = $primoGirone+$i;
-            $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-            $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-            $connessione->query($query);
-        }
-    } else if ($numPerGirone==5) {
-
-        //A vs B
-        for ($i=0; $i < $numGironi; $i++) {
-            
-            $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-            $resultCoppiaGirone = $connessione->query($query);
-
-            $codGirone = $primoGirone+$i;
-            $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-            $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-            $connessione->query($query);
-        }
-
-        //C vs D
-        for ($i=0; $i < $numGironi; $i++) {
-            
-            $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-            $resultCoppiaGirone = $connessione->query($query);
-
-            //Fetch first 2
-            mysqli_fetch_assoc($resultCoppiaGirone);
-            mysqli_fetch_assoc($resultCoppiaGirone);
-
-            $codGirone = $primoGirone+$i;
-            $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-            $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-            $connessione->query($query);
-        }
-
-        //A vs E
-        for ($i=0; $i < $numGironi; $i++) {
-            
-            $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-            $resultCoppiaGirone = $connessione->query($query);
-
-            $codGirone = $primoGirone+$i;
-            $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless second row
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless third row
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless forth row
-
-            $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-            $connessione->query($query);
-        }
-
-        //B vs C
-        for ($i=0; $i < $numGironi; $i++) {
-            
-            $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-            $resultCoppiaGirone = $connessione->query($query);
-
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless first row
-
-            $codGirone = $primoGirone+$i;
-            $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-            $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-            $connessione->query($query);
-        }
-
-        //D vs E
-        for ($i=0; $i < $numGironi; $i++) {
-            
-            $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-            $resultCoppiaGirone = $connessione->query($query);
-
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless first row
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless second row
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless third row
-
-            $codGirone = $primoGirone+$i;
-            $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-            $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-            $connessione->query($query);
-        }
-
-        //A vs C
-        for ($i=0; $i < $numGironi; $i++) {
-            
-            $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-            $resultCoppiaGirone = $connessione->query($query);
-
-            $codGirone = $primoGirone+$i;
-            $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless second row
-
-            $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-            $connessione->query($query);
-        }
-
-        //B vs D
-        for ($i=0; $i < $numGironi; $i++) {
-            
-            $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-            $resultCoppiaGirone = $connessione->query($query);
-
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless first row
-
-            $codGirone = $primoGirone+$i;
-            $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless third row
-
-            $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-            $connessione->query($query);
-        }
-
-        //C vs E
-        for ($i=0; $i < $numGironi; $i++) {
-            
-            $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-            $resultCoppiaGirone = $connessione->query($query);
-
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless first row
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless second row
-
-            $codGirone = $primoGirone+$i;
-            $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless forth row
-
-            $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-            $connessione->query($query);
-        }
-
-        //A vs D
-        for ($i=0; $i < $numGironi; $i++) {
-            
-            $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-            $resultCoppiaGirone = $connessione->query($query);
-
-            $codGirone = $primoGirone+$i;
-            $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless second row
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless third row
-
-            $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-            $connessione->query($query);
-        }
-
-        //B vs E
-        for ($i=0; $i < $numGironi; $i++) {
-            
-            $query = "SELECT codCoppia, pos FROM coppia_girone WHERE codGirone = ".($primoGirone+$i)." ORDER BY pos ASC";
-            $resultCoppiaGirone = $connessione->query($query);
-
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless first row
-
-            $codGirone = $primoGirone+$i;
-            $coppia1 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless third row
-            mysqli_fetch_assoc($resultCoppiaGirone); //Read useless forth row
-
-            $coppia2 = mysqli_fetch_assoc($resultCoppiaGirone)["codCoppia"];
-
-            $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";
-            $connessione->query($query);
-        }
+    } else {
+        $matches = creaPartite($numPerGirone, $primoGirone, $connessione, $numGironi);
+        inserisciPartiteNelDatabase($matches, $primoGirone, $codEvento, $under, $numPerGirone, $connessione);
     }
 
     header("LOCATION: partite.php?codEvento=".$codEvento."&under=".$under);
