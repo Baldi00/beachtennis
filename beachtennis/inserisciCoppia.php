@@ -101,17 +101,26 @@
 
     <h3 align="center" style="margin-top: 10px;">Inserisci nuova coppia</h3>
 
-
     <form action="azioneCoppia.php">
         <table class="table table-striped">
+            <thead>
+                <tr style="text-align: center;">
+                <th scope="col">Nome</th>
+                <th scope="col">Partecipante 1</th>
+                <th scope="col">Partecipante 2</th>
+                <th scope="col">Under</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                </tr>
+            </thead>
             <tbody>
                 <tr>
-                    <th scope='row'>
-                        <div class="col-sm" width="50%"><input placeholder="Nome coppia" class="form-control" type="text" name="nome" required style="width: 100%; text-align: center;"></div>
+                    <th scope='row' style="width: 20%">
+                        <div class="col-sm"><input placeholder="Nome coppia" class="form-control" type="text" name="nome" required style="width: 100%; text-align: center;"></div>
                     </th>
                     <?php
                         
-                        echo '  <td><div class="form-group">
+                        echo '  <td style="width: 20%"><div class="form-group">
                                   <select required class="form-control" name="part1">
                                     <option value="" selected>Partecipante 1</option>';
 
@@ -124,7 +133,7 @@
                         echo '    </select>
                                 </div></td> ';
 
-                        echo '  <td><div class="form-group">
+                        echo '  <td style="width: 20%"><div class="form-group">
                                   <select required class="form-control" name="part2">
                                     <option value="">Partecipante 2</option>';
 
@@ -140,20 +149,20 @@
                         echo '    </select>
                                 </div></td> ';
                     ?>
-                    <td>
+                    <td style="width: 20%">
                         <input required placeholder="Under" class="form-control" type="number" name="under" min=0 style="width: 100%; text-align: center;">
                         </div>
                     </td>
                     <input type="hidden" name="azione" value="aggiungi">
+                    <div class="row" style="margin-top: 20px; margin-bottom: 20px; text-align: center">
+                        <div class="col-sm" colspan="2">
+                            <td style="text-align: center; width: 8%"><button style="width: 100%" class="btn btn-primary" onclick="nomeCoppiaAutomatico(); return false;">Nome auto</button></td>
+                            <td style="text-align: center; width: 8%"><button style="width: 100%" class="btn btn-primary" onclick="underAutomatico(); return false;">Under auto</button></td>
+                        </div>
+                    </div>
                 </tr>
             </tbody>
         </table>
-        <div class="row" style="margin-top: 20px; margin-bottom: 20px; text-align: center">
-            <div class="col-sm" colspan="2">
-                <button class="btn btn-primary" onclick="nomeCoppiaAutomatico(); return false;" style="width: 30%;">Nome coppia automatico</button>
-                <button class="btn btn-primary" onclick="underAutomatico(); return false;" style="width: 30%; margin-left: 10px;">Under automatico</button>
-            </div>
-        </div>
 
         <div class="row" style="margin: 10px;">
             <div class="col-sm" colspan="2"><input class="btn btn-primary" type="submit" value="Inserisci" style="width: 100%"></div>

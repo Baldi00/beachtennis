@@ -64,6 +64,14 @@
 
     <form action="azioneIscritto.php">
         <table class="table table-striped">
+            <thead>
+                <tr style="text-align: center;">
+                <th scope="col">Nome</th>
+                <th scope="col">Data di Nascita</th>
+                <th scope="col">Numero di Telefono</th>
+                <th scope="col">Iscritto</th>
+                </tr>
+            </thead>
             <tbody>
                 <tr>
                     <th scope='row'>

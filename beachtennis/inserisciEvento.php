@@ -58,6 +58,13 @@
 
     <form action="azioneEvento.php">
         <table class="table table-striped">
+            <thead>
+                <tr style="text-align: center;">
+                <th scope="col">Nome Evento</th>
+                <th scope="col">Data Inizio</th>
+                <th scope="col">Data Fine</th>
+                </tr>
+            </thead>
             <tbody>
                 <tr>
                     <th scope='row'><div class="col-sm" width="50%"></div><div class="col-sm" width="50%"><input placeholder="Nome evento" class="form-control" type="text" name="nome" required style="width: 100%; text-align: center;"></div></th>

@@ -65,6 +65,13 @@
             checkUnders();
         }
 
+        function underAutomaticoTutti() {
+            var righe = document.getElementsByTagName('tr');
+            for (var i = 0; i < righe.length-1; i++) {
+                underAutomatico(i);
+            }
+        }
+
     </script>
 
     <title>Beach Tennis</title>
@@ -119,8 +126,7 @@
                 <th scope="col">Partecipante 1</th>
                 <th scope="col">Partecipante 2</th>
                 <th scope="col">Under</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th scope="col" colspan="2"><button class="btn btn-primary" style="width: 100%" onclick="underAutomaticoTutti(); return false;">Under auto tutti</button></th>
                 </tr>
             </thead>
             <tbody>
@@ -179,9 +185,9 @@
 
                         echo "  <td><input required placeholder='Under' class='form-control' type='number' min=0 style='width: 100%; text-align: center' onchange='checkUnders(); return false;' name='under".$i."' value='".$line["under"]."'></td>";
 
-                        echo "  <td><a style='cursor: pointer; color: #007bff' onclick='nomeCoppiaAutomatico(".$i.")'>Nome auto</a></td>";
+                        echo "  <td style='width: 8%'><button style='width: 100%' class='btn btn-primary' onclick='nomeCoppiaAutomatico(".$i."); return false;'>Nome auto</button></td>";
 
-                        echo "  <td><a style='cursor: pointer; color: #007bff' onclick='underAutomatico(".$i.")'>Under auto</a></td>
+                        echo "  <td style='width: 8%'><button style='width: 100%' class='btn btn-primary' onclick='underAutomatico(".$i."); return false;'>Under auto</button></td>
                                 </tr>";
                     }
                 ?>
