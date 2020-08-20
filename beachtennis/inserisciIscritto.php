@@ -70,7 +70,7 @@
                         <div class="col-sm" width="50%"><input placeholder="Nome iscritto" class="form-control" type="text" name="nome" required style="width: 100%; text-align: center;"></div>
                     </th>
                     <td>
-                        <input required placeholder="Anno di Nascita" class="form-control" type="date" name="anno" value="2010-01-01" style="width: 100%; text-align: center;">
+                        <input required placeholder="Data di Nascita" class="form-control" type="date" name="data" value="2010-01-01" style="width: 100%; text-align: center;">
                         </div>
                     </td>
                     <td>

@@ -203,7 +203,7 @@
                     $resultPart2 = $connessione->query($query);
                     $linePart2 = mysqli_fetch_assoc($resultPart2);
 
-                    echo '<div draggable="true" id="'.$lineCoppia["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["annoNascita"].' - '.$linePart2["annoNascita"].')</div>';
+                    echo '<div draggable="true" id="'.$lineCoppia["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["dataNascita"].' - '.$linePart2["dataNascita"].')</div>';
                 }
                 echo '  </div>
                         <div class="draggablecontainer" style="width: 60%; float: left; text-align: center">';
@@ -226,14 +226,14 @@
 
                 for ($i=0; $i < $resultCoppie->num_rows; $i++) {
 
-                    $lineCoppie = mysqli_fetch_assoc($connessione->query("SELECT * FROM coppie WHERE codCoppia = ".mysqli_fetch_assoc($resultCoppie)["codCoppia"]));
+                    $lineCoppia = mysqli_fetch_assoc($connessione->query("SELECT * FROM coppie WHERE codCoppia = ".mysqli_fetch_assoc($resultCoppie)["codCoppia"]));
 
                     mysqli_data_seek($resultCoppiaGirone, 0);
                     $used = false;
 
                     for($j=0; $j < $resultCoppiaGirone->num_rows && !$used; $j++){
                         $lineCoppiaGirone = mysqli_fetch_assoc($resultCoppiaGirone);
-                        if($lineCoppie["codCoppia"]==$lineCoppiaGirone["codCoppia"])
+                        if($lineCoppia["codCoppia"]==$lineCoppiaGirone["codCoppia"])
                             $used = true;
                     }
 
@@ -249,7 +249,7 @@
                         $resultPart2 = $connessione->query($query);
                         $linePart2 = mysqli_fetch_assoc($resultPart2);
 
-                        echo '<div draggable="true" id="'.$lineCoppia["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["annoNascita"].' - '.$linePart2["annoNascita"].')</div>';
+                        echo '<div draggable="true" id="'.$lineCoppia["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["dataNascita"].' - '.$linePart2["dataNascita"].')</div>';
                     }
                 }
 
@@ -273,7 +273,7 @@
                         $resultPart2 = $connessione->query($query);
                         $linePart2 = mysqli_fetch_assoc($resultPart2);
 
-                        echo '<div draggable="true" id="'.$lineCoppiaGirone["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["annoNascita"].' - '.$linePart2["annoNascita"].')</div>';
+                        echo '<div draggable="true" id="'.$lineCoppiaGirone["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["dataNascita"].' - '.$linePart2["dataNascita"].')</div>';
                     }
                 }
                 echo '</div>';

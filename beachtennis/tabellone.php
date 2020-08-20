@@ -190,7 +190,7 @@
                             $resultTemp = $connessione->query($query);
                             $codGirone = mysqli_fetch_assoc($resultTemp)["codGirone"];
 
-                            echo '<div draggable="true" id="'.$lineCoppia["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["annoNascita"].' - '.$linePart2["annoNascita"].') [G'.($codGirone-$primoGirone+1).']</div>';
+                            echo '<div draggable="true" id="'.$lineCoppia["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["dataNascita"].' - '.$linePart2["dataNascita"].') [G'.($codGirone-$primoGirone+1).']</div>';
                         }
                         echo '  </div>
                                 <div class="draggablecontainer" style="width: 60%; float: left; text-align: center">';
@@ -239,7 +239,7 @@
                                 $resultTemp = $connessione->query($query);
                                 $codGirone = mysqli_fetch_assoc($resultTemp)["codGirone"];
 
-                                echo '<div draggable="true" id="'.$lineCoppia["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["annoNascita"].' - '.$linePart2["annoNascita"].') [G'.($codGirone-$primoGirone+1).']</div>';
+                                echo '<div draggable="true" id="'.$lineCoppia["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["dataNascita"].' - '.$linePart2["dataNascita"].') [G'.($codGirone-$primoGirone+1).']</div>';
                             }
                         }
 
@@ -267,7 +267,7 @@
                                 $resultTemp = $connessione->query($query);
                                 $codGirone = mysqli_fetch_assoc($resultTemp)["codGirone"];
                                 
-                                echo '<div draggable="true" id="'.$lineCoppiaGirone["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["annoNascita"].' - '.$linePart2["annoNascita"].') [G'.($codGirone-$primoGirone+1).']</div>';
+                                echo '<div draggable="true" id="'.$lineCoppiaGirone["codCoppia"].'" class="box">'.$lineCoppia["nome"].' ('.$linePart1["dataNascita"].' - '.$linePart2["dataNascita"].') [G'.($codGirone-$primoGirone+1).']</div>';
                             }
                         }
                         echo '</div>';

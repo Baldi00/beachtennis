@@ -153,9 +153,9 @@
                         for ($j=0; $j < $resultGiocatori->num_rows; $j++) {
                             $lineGiocatori = mysqli_fetch_assoc($resultGiocatori); 
                             if($line["part1"] == $lineGiocatori["codGiocatore"]) {
-                                echo "<option selected value=".$lineGiocatori["codGiocatore"].">".$lineGiocatori["nome"]." (".$lineGiocatori["annoNascita"].")</option>";
+                                echo "<option selected value=".$lineGiocatori["codGiocatore"].">".$lineGiocatori["nome"]." (".$lineGiocatori["dataNascita"].")</option>";
                             } else {
-                                echo "<option value=".$lineGiocatori["codGiocatore"].">".$lineGiocatori["nome"]." (".$lineGiocatori["annoNascita"].")</option>";
+                                echo "<option value=".$lineGiocatori["codGiocatore"].">".$lineGiocatori["nome"]." (".$lineGiocatori["dataNascita"].")</option>";
                             }
                         }
                         echo '    </select>
@@ -169,9 +169,9 @@
                         for ($j=0; $j < $resultGiocatori->num_rows; $j++) {
                             $lineGiocatori = mysqli_fetch_assoc($resultGiocatori); 
                             if($line["part2"] == $lineGiocatori["codGiocatore"]) {
-                                echo "<option selected value=".$lineGiocatori["codGiocatore"].">".$lineGiocatori["nome"]." (".$lineGiocatori["annoNascita"].")</option>";
+                                echo "<option selected value=".$lineGiocatori["codGiocatore"].">".$lineGiocatori["nome"]." (".$lineGiocatori["dataNascita"].")</option>";
                             } else {
-                                echo "<option value=".$lineGiocatori["codGiocatore"].">".$lineGiocatori["nome"]." (".$lineGiocatori["annoNascita"].")</option>";
+                                echo "<option value=".$lineGiocatori["codGiocatore"].">".$lineGiocatori["nome"]." (".$lineGiocatori["dataNascita"].")</option>";
                             }
                         }
                         echo '    </select>

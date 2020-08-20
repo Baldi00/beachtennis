@@ -149,12 +149,13 @@
     }
 
     function inserisciPartiteNelDatabase($matches, $primoGirone, $codEvento, $under, $coppiePerGirone, $connessione) {
-        for ($numCoppia=0; $numCoppia < $coppiePerGirone; $numCoppia++) {
+        $numMatches = count($matches[0]);
+        for ($numMatch=0; $numMatch < $numMatches; $numMatch++) {
             for ($numGirone=0; $numGirone < count($matches); $numGirone++) { 
                 $codGirone = $primoGirone+$numGirone;
 
-                $coppia1 = $matches[$numGirone][$numCoppia][0];
-                $coppia2 = $matches[$numGirone][$numCoppia][1];
+                $coppia1 = $matches[$numGirone][$numMatch][0];
+                $coppia2 = $matches[$numGirone][$numMatch][1];
 
                 $query = "INSERT INTO `partite` (`codGirone`, `codEvento`, `codCoppia1`, `codCoppia2`, `under`) 
                           VALUES ('".$codGirone."', '".$codEvento."', '".$coppia1."', '".$coppia2."', '".$under."')";

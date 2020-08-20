@@ -88,12 +88,12 @@
                 $query = "SELECT * FROM giocatori WHERE codGiocatore = ".$line["part1"];
                 $lineGiocatore = mysqli_fetch_assoc($connessione->query($query));
                 $part1 = $lineGiocatore["nome"];
-                $anno1 = $lineGiocatore["annoNascita"];
+                $anno1 = $lineGiocatore["dataNascita"];
 
                 $query = "SELECT * FROM giocatori WHERE codGiocatore = ".$line["part2"];
                 $lineGiocatore = mysqli_fetch_assoc($connessione->query($query));
                 $part2 = $lineGiocatore["nome"];
-                $anno2 = $lineGiocatore["annoNascita"];
+                $anno2 = $lineGiocatore["dataNascita"];
 
                 echo "  <tr style='text-align: center'>
                             <th scope='row'>".$line["nome"]."</th>

@@ -10,7 +10,7 @@
 		    $result = $connessione->query($query);
 		   	header("LOCATION: eliminaIscritto.php");
     	} else if($_GET["azione"]=="aggiungi"){
-		    $query = "INSERT INTO `giocatori` (`nome`, `annoNascita`, `numeroTelefono`, `iscritto`) VALUES ('".$_GET['nome']."', '".$_GET['anno']."', '".$_GET['numero']."', '".$_GET['iscritto']."')";
+		    $query = "INSERT INTO `giocatori` (`nome`, `dataNascita`, `numeroTelefono`, `iscritto`) VALUES ('".$_GET['nome']."', '".$_GET['data']."', '".$_GET['numero']."', '".$_GET['iscritto']."')";
             echo $query;
 		    $result = $connessione->query($query);
 		   	header("LOCATION: iscritti.php");
@@ -20,7 +20,7 @@
             $numRow = $result->num_rows;
 
             for ($i=0; $i < $numRow; $i++) { 
-                $query = "UPDATE `giocatori` SET `nome` = '".$_GET["nome".$i]."', `annoNascita` = '".$_GET["anno".$i]."', `numeroTelefono` ='".$_GET["numero".$i]."', `iscritto` ='".$_GET["iscritto".$i]."' WHERE codGiocatore = ".$_GET["codGiocatore".$i]."";
+                $query = "UPDATE `giocatori` SET `nome` = '".$_GET["nome".$i]."', `dataNascita` = '".$_GET["data".$i]."', `numeroTelefono` ='".$_GET["numero".$i]."', `iscritto` ='".$_GET["iscritto".$i]."' WHERE codGiocatore = ".$_GET["codGiocatore".$i]."";
                 $result = $connessione->query($query);
             }
             header("LOCATION: iscritti.php");

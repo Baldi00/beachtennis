@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Ago 19, 2020 alle 13:28
+-- Creato il: Ago 20, 2020 alle 10:39
 -- Versione del server: 10.4.11-MariaDB
 -- Versione PHP: 7.4.1
 
@@ -88,7 +88,7 @@ CREATE TABLE `eventi` (
 CREATE TABLE `giocatori` (
   `codGiocatore` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
-  `annoNascita` date NOT NULL,
+  `dataNascita` date NOT NULL,
   `numeroTelefono` varchar(100) DEFAULT NULL,
   `iscritto` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

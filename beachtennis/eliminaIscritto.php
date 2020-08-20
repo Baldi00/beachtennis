@@ -71,7 +71,7 @@
         <thead>
             <tr style="text-align: center;">
             <th scope="col">Nome</th>
-            <th scope="col">Anno di Nascita</th>
+            <th scope="col">Data di Nascita</th>
             <th scope="col">Numero di Telefono</th>
             <th scope="col">Iscritto</th>
             <th scope="col"></th>
@@ -89,7 +89,7 @@
                     $line = mysqli_fetch_assoc($result);
                     echo "  <tr style='text-align: center'>
                                 <th scope='row'>".$line["nome"]."</th>
-                                <td>".$line["annoNascita"]."</td>
+                                <td>".$line["dataNascita"]."</td>
                                 <td>".$line["numeroTelefono"]."</td>
                                 <td>".$line["iscritto"]."</td>
                                 <td><a href='azioneIscritto.php?azione=elimina&cod=".$line["codGiocatore"]."'>Cancella</a></td>
