@@ -17,7 +17,7 @@
     <style type="text/css">
 
         @media (max-width: 1200px) {
-          .divSito{
+          .divWebsite{
                 width: 98%;
                 margin-left: 1%;
                 margin-right: 1%;
@@ -30,7 +30,7 @@
         }
 
         @media (min-width: 1200px) {
-          .divSito{
+          .divWebsite{
                 width: 31.33%;
                 margin: 1%;
                 float: left;
@@ -40,12 +40,12 @@
             }
         }
 
-        .divSito:hover {
+        .divWebsite:hover {
             transition-duration: 0.3s;
             box-shadow: 0px 0px 10px rgba(0,0,0,.2);
         }
 
-        .divNomeSito{
+        .divSiteName{
             width: 100%;
             height: 100%;
             text-align: center;
@@ -66,26 +66,26 @@
         </button>
     </nav>
 
-    <a href="iscritti.php">
+    <a href="players.php">
         <div class="container-fluid">
-            <div class="rounded divSito">
-                <div style="height: 300px; vertical-align: middle; line-height: 300px" class="rounded-bottom divNomeSito">TUTTI GLI ISCRITTI</div>
+            <div class="rounded divWebsite">
+                <div style="height: 300px; vertical-align: middle; line-height: 300px" class="rounded-bottom divSiteName">TUTTI GLI ISCRITTI</div>
             </div>
         </div>
     </a>
 
-    <a href="coppie.php">
+    <a href="couples.php">
         <div class="container-fluid">
-            <div class="rounded divSito">
-                <div style="height: 300px; vertical-align: middle; line-height: 300px" class="rounded-bottom divNomeSito">TUTTE LE COPPIE</div>
+            <div class="rounded divWebsite">
+                <div style="height: 300px; vertical-align: middle; line-height: 300px" class="rounded-bottom divSiteName">TUTTE LE COPPIE</div>
             </div>
         </div>
     </a>
     
-    <a href="eventi.php">
+    <a href="events.php">
         <div class="container-fluid">
-            <div class="rounded divSito">
-                <div style="height: 300px; vertical-align: middle; line-height: 300px" class="rounded-bottom divNomeSito">EVENTI</div>
+            <div class="rounded divWebsite">
+                <div style="height: 300px; vertical-align: middle; line-height: 300px" class="rounded-bottom divSiteName">EVENTI</div>
             </div>
         </div>
     </a>
