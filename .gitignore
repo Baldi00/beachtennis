@@ -1,2 +1,2 @@
-
-*.csv
+# removes IDE specific folders
+.idea/
