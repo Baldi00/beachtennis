@@ -27,40 +27,40 @@ USE `beachtennis`;
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `coppia_evento`
+-- Struttura della tabella `couple_event`
 --
 
-CREATE TABLE `coppia_evento` (
-  `codCoppia` int(11) NOT NULL,
-  `codEvento` int(11) NOT NULL,
+CREATE TABLE `couple_event` (
+  `coupleID` int(11) NOT NULL,
+  `eventID` int(11) NOT NULL,
   `under` int(11) NOT NULL,
-  `punt` int(11) NOT NULL
+  `points` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `coppia_girone`
+-- Struttura della tabella `couple_round`
 --
 
-CREATE TABLE `coppia_girone` (
-  `codGirone` int(11) NOT NULL,
-  `codEvento` int(11) NOT NULL,
-  `codCoppia` int(11) NOT NULL,
+CREATE TABLE `couple_round` (
+  `roundID` int(11) NOT NULL,
+  `eventID` int(11) NOT NULL,
+  `coupleID` int(11) NOT NULL,
   `under` int(11) NOT NULL,
   `pos` int(11) NOT NULL,
-  `numCoppie` int(11) NOT NULL
+  `numCouples` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `coppie`
+-- Struttura della tabella `couples`
 --
 
-CREATE TABLE `coppie` (
-  `codCoppia` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
+CREATE TABLE `couples` (
+  `coupleID` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
   `part1` int(100) NOT NULL,
   `part2` int(100) NOT NULL,
   `under` int(11) NOT NULL
@@ -69,72 +69,72 @@ CREATE TABLE `coppie` (
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `eventi`
+-- Struttura della tabella `events`
 --
 
-CREATE TABLE `eventi` (
-  `codEvento` int(11) NOT NULL,
-  `nomeEvento` varchar(100) NOT NULL,
-  `dataInizio` varchar(30) DEFAULT NULL,
-  `dataFine` varchar(30) DEFAULT NULL
+CREATE TABLE `events` (
+  `eventID` int(11) NOT NULL,
+  `eventName` varchar(100) NOT NULL,
+  `startDate` varchar(30) DEFAULT NULL,
+  `endDate` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `giocatori`
+-- Struttura della tabella `players`
 --
 
-CREATE TABLE `giocatori` (
-  `codGiocatore` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `dataNascita` date NOT NULL,
-  `numeroTelefono` varchar(100) DEFAULT NULL,
-  `iscritto` varchar(100) DEFAULT NULL
+CREATE TABLE `players` (
+  `playerID` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `birthdayDate` date NOT NULL,
+  `phoneNumber` varchar(100) DEFAULT NULL,
+  `subscribed` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `gironi`
+-- Struttura della tabella `rounds`
 --
 
-CREATE TABLE `gironi` (
-  `codGirone` int(11) NOT NULL,
-  `codEvento` int(11) NOT NULL,
+CREATE TABLE `rounds` (
+  `roundID` int(11) NOT NULL,
+  `eventID` int(11) NOT NULL,
   `under` int(11) NOT NULL,
-  `numCoppie` int(11) NOT NULL
+  `numCouples` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `partite`
+-- Struttura della tabella `matches`
 --
 
-CREATE TABLE `partite` (
-  `codPartita` int(11) NOT NULL,
-  `codGirone` int(11) NOT NULL,
-  `codEvento` int(11) NOT NULL,
-  `codCoppia1` int(11) NOT NULL,
-  `codCoppia2` int(11) NOT NULL,
-  `data` varchar(100) DEFAULT NULL,
-  `campo` varchar(100) DEFAULT NULL,
-  `punt1` int(11) DEFAULT NULL,
-  `punt2` int(11) DEFAULT NULL,
+CREATE TABLE `matches` (
+  `matchID` int(11) NOT NULL,
+  `roundID` int(11) NOT NULL,
+  `eventID` int(11) NOT NULL,
+  `idCouple1` int(11) NOT NULL,
+  `idCouple2` int(11) NOT NULL,
+  `date` varchar(100) DEFAULT NULL,
+  `field` varchar(100) DEFAULT NULL,
+  `points1` int(11) DEFAULT NULL,
+  `points2` int(11) DEFAULT NULL,
   `under` int(11) NOT NULL,
-  `finale` int(11) NOT NULL
+  `final` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `vincitori`
+-- Struttura della tabella `winners`
 --
 
-CREATE TABLE `vincitori` (
-  `codCoppia` int(11) NOT NULL,
-  `codEvento` int(11) NOT NULL,
+CREATE TABLE `winners` (
+  `coupleID` int(11) NOT NULL,
+  `eventID` int(11) NOT NULL,
   `under` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -143,145 +143,145 @@ CREATE TABLE `vincitori` (
 --
 
 --
--- Indici per le tabelle `coppia_evento`
+-- Indici per le tabelle `couple_event`
 --
-ALTER TABLE `coppia_evento`
-  ADD PRIMARY KEY (`codCoppia`,`codEvento`,`under`) USING BTREE,
-  ADD KEY `FK_Coppia_Evento_Evento` (`codEvento`);
+ALTER TABLE `couple_event`
+  ADD PRIMARY KEY (`coupleID`,`eventID`,`under`) USING BTREE,
+  ADD KEY `FK_Couple_Event_Event` (`eventID`);
 
 --
--- Indici per le tabelle `coppia_girone`
+-- Indici per le tabelle `couple_round`
 --
-ALTER TABLE `coppia_girone`
-  ADD PRIMARY KEY (`codGirone`,`codEvento`,`codCoppia`),
-  ADD KEY `FK_Coppia_Girone_Coppia` (`codCoppia`),
-  ADD KEY `FK_Coppia_Girone_Evento` (`codEvento`);
+ALTER TABLE `couple_round`
+  ADD PRIMARY KEY (`roundID`,`eventID`,`coupleID`),
+  ADD KEY `FK_Couple_Round_Couple` (`coupleID`),
+  ADD KEY `FK_Couple_Round_Event` (`eventID`);
 
 --
--- Indici per le tabelle `coppie`
+-- Indici per le tabelle `couples`
 --
-ALTER TABLE `coppie`
-  ADD PRIMARY KEY (`codCoppia`),
-  ADD KEY `FK_Coppie_Giocatore1` (`part1`),
-  ADD KEY `FK_Coppie_Giocatore2` (`part2`);
+ALTER TABLE `couples`
+  ADD PRIMARY KEY (`coupleID`),
+  ADD KEY `FK_Couples_Player1` (`part1`),
+  ADD KEY `FK_Couples_Player2` (`part2`);
 
 --
--- Indici per le tabelle `eventi`
+-- Indici per le tabelle `events`
 --
-ALTER TABLE `eventi`
-  ADD PRIMARY KEY (`codEvento`);
+ALTER TABLE `events`
+  ADD PRIMARY KEY (`eventID`);
 
 --
--- Indici per le tabelle `giocatori`
+-- Indici per le tabelle `players`
 --
-ALTER TABLE `giocatori`
-  ADD PRIMARY KEY (`codGiocatore`);
+ALTER TABLE `players`
+  ADD PRIMARY KEY (`playerID`);
 
 --
--- Indici per le tabelle `gironi`
+-- Indici per le tabelle `rounds`
 --
-ALTER TABLE `gironi`
-  ADD PRIMARY KEY (`codGirone`),
-  ADD KEY `FK_Evento` (`codEvento`);
+ALTER TABLE `rounds`
+  ADD PRIMARY KEY (`roundID`),
+  ADD KEY `FK_Event` (`eventID`);
 
 --
--- Indici per le tabelle `partite`
+-- Indici per le tabelle `matches`
 --
-ALTER TABLE `partite`
-  ADD PRIMARY KEY (`codPartita`),
-  ADD KEY `FK_Partite_Girone` (`codGirone`),
-  ADD KEY `FK_Partite_Evento` (`codEvento`),
-  ADD KEY `FK_Partite_Coppia1` (`codCoppia1`),
-  ADD KEY `FK_Partite_Coppia2` (`codCoppia2`);
+ALTER TABLE `matches`
+  ADD PRIMARY KEY (`matchID`),
+  ADD KEY `FK_Matches_Round` (`roundID`),
+  ADD KEY `FK_Matches_Event` (`eventID`),
+  ADD KEY `FK_Matches_Couple1` (`idCouple1`),
+  ADD KEY `FK_Matches_Couple2` (`idCouple2`);
 
 --
--- Indici per le tabelle `vincitori`
+-- Indici per le tabelle `winners`
 --
-ALTER TABLE `vincitori`
-  ADD PRIMARY KEY (`codCoppia`,`codEvento`),
-  ADD KEY `FK_Vincitori_Evento` (`codEvento`);
+ALTER TABLE `winners`
+  ADD PRIMARY KEY (`coupleID`,`eventID`),
+  ADD KEY `FK_Winners_Event` (`eventID`);
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate
 --
 
 --
--- AUTO_INCREMENT per la tabella `coppie`
+-- AUTO_INCREMENT per la tabella `couples`
 --
-ALTER TABLE `coppie`
-  MODIFY `codCoppia` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `couples`
+  MODIFY `coupleID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT per la tabella `eventi`
+-- AUTO_INCREMENT per la tabella `events`
 --
-ALTER TABLE `eventi`
-  MODIFY `codEvento` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `events`
+  MODIFY `eventID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT per la tabella `giocatori`
+-- AUTO_INCREMENT per la tabella `players`
 --
-ALTER TABLE `giocatori`
-  MODIFY `codGiocatore` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `players`
+  MODIFY `playerID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT per la tabella `gironi`
+-- AUTO_INCREMENT per la tabella `rounds`
 --
-ALTER TABLE `gironi`
-  MODIFY `codGirone` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `rounds`
+  MODIFY `roundID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT per la tabella `partite`
+-- AUTO_INCREMENT per la tabella `matches`
 --
-ALTER TABLE `partite`
-  MODIFY `codPartita` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `matches`
+  MODIFY `matchID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Limiti per le tabelle scaricate
 --
 
 --
--- Limiti per la tabella `coppia_evento`
+-- Limiti per la tabella `couple_event`
 --
-ALTER TABLE `coppia_evento`
-  ADD CONSTRAINT `FK_Coppia_Evento_Coppia` FOREIGN KEY (`codCoppia`) REFERENCES `coppie` (`codCoppia`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_Coppia_Evento_Evento` FOREIGN KEY (`codEvento`) REFERENCES `eventi` (`codEvento`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `couple_event`
+  ADD CONSTRAINT `FK_Couple_Event_Couple` FOREIGN KEY (`coupleID`) REFERENCES `couples` (`coupleID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_Couple_Event_Event` FOREIGN KEY (`eventID`) REFERENCES `events` (`eventID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `coppia_girone`
+-- Limiti per la tabella `couple_round`
 --
-ALTER TABLE `coppia_girone`
-  ADD CONSTRAINT `FK_Coppia_Girone_Coppia` FOREIGN KEY (`codCoppia`) REFERENCES `coppie` (`codCoppia`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_Coppia_Girone_Evento` FOREIGN KEY (`codEvento`) REFERENCES `eventi` (`codEvento`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_Coppia_Girone_Girone` FOREIGN KEY (`codGirone`) REFERENCES `gironi` (`codGirone`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `couple_round`
+  ADD CONSTRAINT `FK_Couple_Round_Couple` FOREIGN KEY (`coupleID`) REFERENCES `couples` (`coupleID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_Couple_Round_Event` FOREIGN KEY (`eventID`) REFERENCES `events` (`eventID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Couple_Round_Round` FOREIGN KEY (`roundID`) REFERENCES `rounds` (`roundID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `coppie`
+-- Limiti per la tabella `couples`
 --
-ALTER TABLE `coppie`
-  ADD CONSTRAINT `FK_Coppie_Giocatore1` FOREIGN KEY (`part1`) REFERENCES `giocatori` (`codGiocatore`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_Coppie_Giocatore2` FOREIGN KEY (`part2`) REFERENCES `giocatori` (`codGiocatore`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `couples`
+  ADD CONSTRAINT `FK_Couples_Player1` FOREIGN KEY (`part1`) REFERENCES `players` (`playerID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Couples_Player2` FOREIGN KEY (`part2`) REFERENCES `players` (`playerID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `gironi`
+-- Limiti per la tabella `rounds`
 --
-ALTER TABLE `gironi`
-  ADD CONSTRAINT `FK_Evento` FOREIGN KEY (`codEvento`) REFERENCES `eventi` (`codEvento`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `rounds`
+  ADD CONSTRAINT `FK_Event` FOREIGN KEY (`eventID`) REFERENCES `events` (`eventID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `partite`
+-- Limiti per la tabella `matches`
 --
-ALTER TABLE `partite`
-  ADD CONSTRAINT `FK_Partite_Coppia1` FOREIGN KEY (`codCoppia1`) REFERENCES `coppie` (`codCoppia`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_Partite_Coppia2` FOREIGN KEY (`codCoppia2`) REFERENCES `coppie` (`codCoppia`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_Partite_Evento` FOREIGN KEY (`codEvento`) REFERENCES `eventi` (`codEvento`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_Partite_Girone` FOREIGN KEY (`codGirone`) REFERENCES `gironi` (`codGirone`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `matches`
+  ADD CONSTRAINT `FK_Matches_Couple1` FOREIGN KEY (`idCouple1`) REFERENCES `couples` (`coupleID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_Matches_Couple2` FOREIGN KEY (`idCouple2`) REFERENCES `couples` (`coupleID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_Matches_Event` FOREIGN KEY (`eventID`) REFERENCES `events` (`eventID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Matches_Round` FOREIGN KEY (`roundID`) REFERENCES `rounds` (`roundID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `vincitori`
+-- Limiti per la tabella `winners`
 --
-ALTER TABLE `vincitori`
-  ADD CONSTRAINT `FK_Vincitori_Coppia` FOREIGN KEY (`codCoppia`) REFERENCES `coppie` (`codCoppia`) ON DELETE NO ACTION,
-  ADD CONSTRAINT `FK_Vincitori_Evento` FOREIGN KEY (`codEvento`) REFERENCES `eventi` (`codEvento`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `winners`
+  ADD CONSTRAINT `FK_Winners_Couple` FOREIGN KEY (`coupleID`) REFERENCES `couples` (`coupleID`) ON DELETE NO ACTION,
+  ADD CONSTRAINT `FK_Winners_Event` FOREIGN KEY (`eventID`) REFERENCES `events` (`eventID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
