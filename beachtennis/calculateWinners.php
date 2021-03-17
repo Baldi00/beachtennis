@@ -1,15 +1,14 @@
 <?php
+    include 'modules/db_connection.php';
+
+    $connection = openConnection();
+
     if(!(isset($_GET) && isset($_GET["eventID"]) && isset($_GET["under"]))){
         header("LOCATION: index.php");
     }
     
     $eventID = $_GET["eventID"];
     $under = $_GET["under"];
-
-    $connection = new mysqli("localhost","root","","beachtennis");
-
-    if($connection->connect_errno)
-        die("<h1>Errore connessione al database</h1>");
     
     $query = "SELECT * FROM rounds WHERE eventID = ".$eventID." AND under = ".$under." AND numCouples>2";
 

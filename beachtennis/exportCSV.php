@@ -25,12 +25,11 @@
     </nav>
 
     <?php
+        include 'modules/db_connection.php';
+
         $today = date("Y-m-d");
 
-        $connection = new mysqli("localhost","root","","beachtennis");
-
-        if($connection->connect_errno)
-            die("<h1>Errore connessione al datebase</h1>");
+        $connection = openConnection();
 
         if(isset($_GET["source"])){
             if($_GET["source"]=="couples"){
