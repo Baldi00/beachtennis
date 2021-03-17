@@ -1,4 +1,6 @@
 <?php
+    include 'modules/db_connection.php';
+
     if(!(isset($_GET) && isset($_GET["eventID"]) && isset($_GET["under"]) && isset($_GET["reset"]) && isset($_GET["source"]))){
         header("LOCATION: index.php");
     }
@@ -8,10 +10,7 @@
     $reset = $_GET["reset"];
     $source = $_GET["source"];
 
-    $connection = new mysqli("localhost","root","","beachtennis");
-
-    if($connection->connect_errno)
-        die("<h1>Errore connessione al database</h1>");
+    $connection = openConnection();
     
     if($reset == "rounds") {
         $query = "DELETE FROM rounds WHERE eventID = ".$eventID." AND under = ".$under;

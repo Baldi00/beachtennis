@@ -1,14 +1,13 @@
 <?php
+    include 'modules/db_connection.php';
+
     if(!(isset($_GET) && isset($_GET["eventID"]) && isset($_GET["under"])))
         header("LOCATION: index.php");
     
     $eventID = $_GET["eventID"];
     $under = $_GET["under"];
 
-    $connection = new mysqli("localhost","root","","beachtennis");
-
-    if($connection->connect_errno)
-        die("<h1>Errore connessione al database</h1>");
+    $connection = openConnection();
     
     if(isset($_POST) && isset($_POST["numRounds"]) && isset($_POST["couplesForRound"])){
         $query = "INSERT INTO `rounds` (`eventID`, `under`, `numCouples`) VALUES ('".$eventID."', '".$under."', '".$_POST["couplesForRound"]."')";

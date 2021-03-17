@@ -152,10 +152,9 @@
 ?>
 
 <?php
-    $connection = new mysqli("localhost","root","","beachtennis");
+    include 'modules/db_connection.php';
 
-    if($connection->connect_errno)
-        die("<h1>Errore connessione al database</h1>");
+    $connection = openConnection();
 
     if(!(isset($_GET) && isset($_GET["eventID"]) && isset($_GET["under"]) && isset($_GET["ids"]) && isset($_GET["source"])))
         header("LOCATION: index.php");

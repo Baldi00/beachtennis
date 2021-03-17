@@ -1,8 +1,7 @@
 <?php
-    $connection = new mysqli("localhost","root","","beachtennis");
+    include 'modules/db_connection.php';
 
-    if($connection->connect_errno)
-        die("<h1>Errore connessione al database</h1>");
+    $connection = openConnection();
     
     $query = "SELECT * FROM events";
 
