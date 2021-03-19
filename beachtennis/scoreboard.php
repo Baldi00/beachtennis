@@ -23,13 +23,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="public/bootstrap/css/bootstrap.min.css">
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="public/js/jquery-3.5.1.slim.min.js"></script>
-    <script src="public/js/popper.min.js"></script>
-    <script src="public/js/bootstrap.min.js"></script>
+    <script src="public/unknown/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="public/unknown/js/popper.min.js"></script>
+    <script src="public/bootstrap/js/bootstrap.min.js"></script>
 
     <script>
         function validate(form) {
@@ -61,8 +61,8 @@
         }
     </script>
 
-    <link rel="stylesheet" href="public/css/draggableboxes.css">
-    <script src="public/js/draganddrop.js"></script>
+    <link rel="stylesheet" href="public/unknown/css/draggableboxes.css">
+    <script src="public/unknown/js/draganddrop.js"></script>
 
     <title>Beach Tennis</title>
 </head>
