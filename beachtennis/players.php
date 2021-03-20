@@ -75,6 +75,7 @@
                         <td>".$line["phoneNumber"]."</td>
                         <td>".$line["subscribed"]."</td>";
             echo "<td>";
+            // TODO: add a warning: "a player cannot be remove if it's present in a couple"
             echo "<a href='actionPlayer.php?action=delete&id=".$line["playerID"]."'>";
             include "templates/buttons/delete.html";
             echo "</a>";
