@@ -32,7 +32,7 @@
 
 <div class="container">
 
-    <h3 align="center" style="margin-top: 10px;">Tutte le coppie</h3>
+    <h3 align="center" style="margin-top: 10px;">Coppie</h3>
 
     <div>
         <div class="content" style="float: left; margin: 1em;">
