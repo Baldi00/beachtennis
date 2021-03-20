@@ -51,38 +51,40 @@
     </div>
 
     <?php
-    $numRow = $result->num_rows;
 
-    if($numRow == 0){
-        echo "<h4 style='margin: 20px; text-align: center;'>Nessuna iscritto presente. Vai in \"Aggiungi iscritti\" per crearne uno</h4>";
-        echo "<div width='100%' align='center'><button class='btn btn-primary' onclick='window.location.href = \"addPlayer.php\";'>Aggiungi iscritto</button></div>";
+    $numRow = $result->num_rows;
+    echo '  <table class="table table-striped">
+                    <thead>
+                        <tr style="text-align: center;">
+                        <th scope="col">Nome</th>
+                        <th scope="col">Data di Nascita</th>
+                        <th scope="col">Numero di Telefono</th>
+                        <th scope="col">Iscritto</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+
+    if ($numRow == 0) {
+        echo "<tr><td colspan='4' style='text-align: center'>Nessun risultato</td></tr>";
     } else {
-        echo '  <table class="table table-striped">
-                        <thead>
-                            <tr style="text-align: center;">
-                            <th scope="col">Nome</th>
-                            <th scope="col">Data di Nascita</th>
-                            <th scope="col">Numero di Telefono</th>
-                            <th scope="col">Iscritto</th>
-                            </tr>
-                        </thead>
-                        <tbody>';
         for($i=0; $i<$numRow; $i++){
             $line = mysqli_fetch_assoc($result);
             echo "  <tr style='text-align: center'>
-                            <th scope='row'>".$line["name"]."</th>
-                            <td>".$line["birthdayDate"]."</td>
-                            <td>".$line["phoneNumber"]."</td>
-                            <td>".$line["subscribed"]."</td>";
+                        <th scope='row'>".$line["name"]."</th>
+                        <td>".$line["birthdayDate"]."</td>
+                        <td>".$line["phoneNumber"]."</td>
+                        <td>".$line["subscribed"]."</td>";
             echo "<td>";
             echo "<a href='actionPlayer.php?action=delete&id=".$line["playerID"]."'>";
             include "templates/buttons/delete.html";
             echo "</a>";
             echo "</td></tr>";
         }
-        echo '      </tbody>
-                    </table>';
     }
+
+    echo '      </tbody>
+            </table>';
+
     ?>
 
 </div>
