@@ -45,10 +45,7 @@
                 <button type="button" class="btn btn-success">Aggiungi</button>
             </a>
             <a href="editPlayer.php">
-                <button type="button" class="btn btn-warning" onclick="">Modifica</button>
-            </a>
-            <a href="deletePlayer.php">
-                <button type="button" class="btn btn-danger" onclick="">Cancella</button>
+                <button type="button" class="btn btn-light" onclick="">Modifica</button>
             </a>
         </div>
     </div>
@@ -76,8 +73,12 @@
                             <th scope='row'>".$line["name"]."</th>
                             <td>".$line["birthdayDate"]."</td>
                             <td>".$line["phoneNumber"]."</td>
-                            <td>".$line["subscribed"]."</td>
-                        </tr>";
+                            <td>".$line["subscribed"]."</td>";
+            echo "<td>";
+            echo "<a href='actionPlayer.php?action=delete&id=".$line["playerID"]."'>";
+            include "templates/buttons/delete.html";
+            echo "</a>";
+            echo "</td></tr>";
         }
         echo '      </tbody>
                     </table>';

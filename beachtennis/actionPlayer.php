@@ -7,7 +7,7 @@
     	if($_GET["action"]=="delete"){
 		    $query = "DELETE FROM players WHERE playerID = ".$_GET["id"];
 		    $result = $connection->query($query);
-		   	header("LOCATION: deletePlayer.php");
+		   	header("LOCATION: players.php");
     	} else if($_GET["action"]=="add"){
 		    $query = "INSERT INTO players (`name`, `birthdayDate`, `phoneNumber`, `subscribed`) VALUES ('".$_GET['name']."', '".$_GET['date']."', '".$_GET['number']."', '".$_GET['subscribed']."')";
             echo $query;
