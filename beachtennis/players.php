@@ -60,6 +60,7 @@
                         <th scope="col">Data di Nascita</th>
                         <th scope="col">Numero di Telefono</th>
                         <th scope="col">Iscritto</th>
+                        <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>';
