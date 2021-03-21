@@ -45,43 +45,48 @@
                 <button type="button" class="btn btn-success">Aggiungi</button>
             </a>
             <a href="editPlayer.php">
-                <button type="button" class="btn btn-warning" onclick="">Modifica</button>
-            </a>
-            <a href="deletePlayer.php">
-                <button type="button" class="btn btn-danger" onclick="">Cancella</button>
+                <button type="button" class="btn btn-light" onclick="">Modifica</button>
             </a>
         </div>
     </div>
 
     <?php
-    $numRow = $result->num_rows;
 
-    if($numRow == 0){
-        echo "<h4 style='margin: 20px; text-align: center;'>Nessuna iscritto presente. Vai in \"Aggiungi iscritti\" per crearne uno</h4>";
-        echo "<div width='100%' align='center'><button class='btn btn-primary' onclick='window.location.href = \"addPlayer.php\";'>Aggiungi iscritto</button></div>";
+    $numRow = $result->num_rows;
+    echo '  <table class="table table-striped">
+                    <thead>
+                        <tr style="text-align: center;">
+                        <th scope="col">Nome</th>
+                        <th scope="col">Data di Nascita</th>
+                        <th scope="col">Numero di Telefono</th>
+                        <th scope="col">Iscritto</th>
+                        <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+
+    if ($numRow == 0) {
+        echo "<tr><td colspan='4' style='text-align: center'>Nessun risultato</td></tr>";
     } else {
-        echo '  <table class="table table-striped">
-                        <thead>
-                            <tr style="text-align: center;">
-                            <th scope="col">Nome</th>
-                            <th scope="col">Data di Nascita</th>
-                            <th scope="col">Numero di Telefono</th>
-                            <th scope="col">Iscritto</th>
-                            </tr>
-                        </thead>
-                        <tbody>';
         for($i=0; $i<$numRow; $i++){
             $line = mysqli_fetch_assoc($result);
             echo "  <tr style='text-align: center'>
-                            <th scope='row'>".$line["name"]."</th>
-                            <td>".$line["birthdayDate"]."</td>
-                            <td>".$line["phoneNumber"]."</td>
-                            <td>".$line["subscribed"]."</td>
-                        </tr>";
+                        <th scope='row'>".$line["name"]."</th>
+                        <td>".$line["birthdayDate"]."</td>
+                        <td>".$line["phoneNumber"]."</td>
+                        <td>".$line["subscribed"]."</td>";
+            echo "<td>";
+            // TODO: add a warning: "a player cannot be remove if it's present in a couple"
+            echo "<a href='actionPlayer.php?action=delete&id=".$line["playerID"]."'>";
+            include "templates/buttons/delete.html";
+            echo "</a>";
+            echo "</td></tr>";
         }
-        echo '      </tbody>
-                    </table>';
     }
+
+    echo '      </tbody>
+            </table>';
+
     ?>
 
 </div>

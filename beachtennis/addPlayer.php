@@ -46,9 +46,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="editPlayer.php">Modifica</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="deletePlayer.php">Cancella</a>
-                </li>
             </ul>
         </div>
     </nav>
