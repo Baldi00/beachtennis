@@ -298,9 +298,9 @@
             var boxes = document.getElementsByClassName("box");
 
             var idCouples = new Array();
-
             var numEmptyBox = 0;
 
+            //Count empty boxes and get all couples id
             for(var i=0; i<boxes.length; i++)
                 if(boxes[i].id == 0)
                     numEmptyBox++;
@@ -309,31 +309,44 @@
                 }
 
             if(numEmptyBox > idCouples.length){
-                window.alert("Non ci sono couples sufficienti per creare i rounds");
+                window.alert("Non ci sono coppie sufficienti per creare i gironi");
                 return;
             }
             
             var randomized = shuffle(idCouples);
-
             var coupleName = new Array();
 
-            console.log(document.getElementsByClassName("box"));
-
-            for(var i=0; i<numEmptyBox; i++) {
+            //Associate coupleName to coupleID in the randomized order
+            for(var i=0; i<boxes.length; i++) {
                 var found = false;
                 for(var j=0; j<boxes.length && !found; j++) {
                     if(boxes[j].id == randomized[i]) {
                         coupleName.push(boxes[j].innerHTML);
-                        document.getElementsByClassName("box")[j].innerHTML = "";
-                        document.getElementsByClassName("box")[j].id = 0;
                         found = true;
                     }
                 }
             }
 
-            for(var i=0; i<numEmptyBox; i++) {
-                document.getElementsByClassName("box")[document.getElementsByClassName("box").length-numEmptyBox+i].innerHTML = coupleName[i];
-                document.getElementsByClassName("box")[document.getElementsByClassName("box").length-numEmptyBox+i].id = randomized[i];
+            //Insert on top of the couples list the unselected onces, in case numCouples > empty boxes
+            var count=0;
+            for(var i=0; i<boxes.length-2*numEmptyBox; i++) {
+                document.getElementsByClassName("box")[i].innerHTML = coupleName[count];
+                document.getElementsByClassName("box")[i].id = randomized[count];
+                count++;
+            }
+
+            //Change into empty boxes the bottom part of the chosen couples.
+            //In case numCouples = empty boxes the entire couple list become empty
+            for(var i=boxes.length-2*numEmptyBox; i<boxes.length-numEmptyBox; i++) {
+                document.getElementsByClassName("box")[i].innerHTML = "";
+                document.getElementsByClassName("box")[i].id = 0;
+            }
+
+            //Assign the chosen couples to the rounds
+            for(var i=boxes.length-numEmptyBox; i<boxes.length; i++) {
+                document.getElementsByClassName("box")[i].innerHTML = coupleName[count];
+                document.getElementsByClassName("box")[i].id = randomized[count];
+                count++;
             }
         }
 
