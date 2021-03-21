@@ -55,45 +55,46 @@
     </div>
 
     <?php
-    $numRow = $result->num_rows;
+    $numRows = $result->num_rows;
 
-    if($numRow == 0){
-        echo "<h4 style='margin: 20px; text-align: center;'>Nessuna coppia presente. Vai in \"Aggiungi coppia\" per crearne una</h4>";
-        echo "<div width='100%' align='center'><button class='btn btn-primary' onclick='window.location.href = \"addCouple.php\";'>Aggiungi coppia</button></div>";
-    } else {
-        echo '  <table class="table table-striped">
-                        <thead>
-                            <tr style="text-align: center;">
-                            <th scope="col">name</th>
-                            <th scope="col">Partecipante 1</th>
-                            <th scope="col">Partecipante 2</th>
-                            <th scope="col">Under</th>
-                            </tr>
-                        </thead>
-                        <tbody>';
-        for($i=0; $i<$numRow; $i++){
-            $line = mysqli_fetch_assoc($result);
 
-            $query = "SELECT * FROM players WHERE playerID = ".$line["part1"];
-            $linePlayer = mysqli_fetch_assoc($connection->query($query));
-            $part1 = $linePlayer["name"];
-            $year1 = $linePlayer["birthdayDate"];
+    echo '  <table class="table table-striped">
+                    <thead>
+                        <tr style="text-align: center;">
+                        <th scope="col">name</th>
+                        <th scope="col">Partecipante 1</th>
+                        <th scope="col">Partecipante 2</th>
+                        <th scope="col">Under</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
 
-            $query = "SELECT * FROM players WHERE playerID = ".$line["part2"];
-            $linePlayer = mysqli_fetch_assoc($connection->query($query));
-            $part2 = $linePlayer["name"];
-            $year2 = $linePlayer["birthdayDate"];
-
-            echo "  <tr style='text-align: center'>
-                            <th scope='row'>".$line["name"]."</th>
-                            <td>".$part1." (".$year1.")</td>
-                            <td>".$part2." (".$year2.")</td>
-                            <td>".$line["under"]."</td>
-                        </tr>";
-        }
-        echo '      </tbody>
-                    </table>';
+    if ($numRows == 0) {
+        echo "<tr><td colspan='4' style='text-align: center'>Nessun risultato</td></tr>";
     }
+
+    for($i=0; $i<$numRows; $i++){
+        $line = mysqli_fetch_assoc($result);
+
+        $query = "SELECT * FROM players WHERE playerID = ".$line["part1"];
+        $linePlayer = mysqli_fetch_assoc($connection->query($query));
+        $part1 = $linePlayer["name"];
+        $year1 = $linePlayer["birthdayDate"];
+
+        $query = "SELECT * FROM players WHERE playerID = ".$line["part2"];
+        $linePlayer = mysqli_fetch_assoc($connection->query($query));
+        $part2 = $linePlayer["name"];
+        $year2 = $linePlayer["birthdayDate"];
+
+        echo "  <tr style='text-align: center'>
+                        <th scope='row'>".$line["name"]."</th>
+                        <td>".$part1." (".$year1.")</td>
+                        <td>".$part2." (".$year2.")</td>
+                        <td>".$line["under"]."</td>
+                    </tr>";
+    }
+    echo '      </tbody>
+                </table>';
     ?>
 
     <script type="text/javascript">
