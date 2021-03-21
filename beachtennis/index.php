@@ -62,29 +62,5 @@
 
     <?php require 'templates/navbar.php' ?>
 
-    <a href="players.php">
-        <div class="container-fluid">
-            <div class="rounded divWebsite">
-                <div style="height: 300px; vertical-align: middle; line-height: 300px" class="rounded-bottom divSiteName">TUTTI GLI ISCRITTI</div>
-            </div>
-        </div>
-    </a>
-
-    <a href="couples.php">
-        <div class="container-fluid">
-            <div class="rounded divWebsite">
-                <div style="height: 300px; vertical-align: middle; line-height: 300px" class="rounded-bottom divSiteName">TUTTE LE COPPIE</div>
-            </div>
-        </div>
-    </a>
-    
-    <a href="events.php">
-        <div class="container-fluid">
-            <div class="rounded divWebsite">
-                <div style="height: 300px; vertical-align: middle; line-height: 300px" class="rounded-bottom divSiteName">EVENTI</div>
-            </div>
-        </div>
-    </a>
-
 </body>
 </html>
