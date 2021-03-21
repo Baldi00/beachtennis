@@ -309,7 +309,7 @@
                 }
 
             if(numEmptyBox > idCouples.length){
-                window.alert("Non ci sono couples sufficienti per creare i gironi");
+                window.alert("Non ci sono coppie sufficienti per creare i gironi");
                 return;
             }
             
