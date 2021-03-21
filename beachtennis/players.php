@@ -1,5 +1,6 @@
 <?php
     include 'modules/db_connection.php';
+    include "templates/hotkeys.php";
 
     $connection = openConnection();
     
@@ -35,18 +36,14 @@
 
     <div>
         <div class="content" style="float: left; margin: 1em;">
-            <a href="exportCSV.php?source=players">
-                <button type="button" class="btn btn-success">Esporta Iscritti</button>
-            </a>
+            <?php exportButton("exportCSV.php?source=players"); ?>
         </div>
 
         <div class="content" style="float: right; margin: 1em;">
-            <a href="addPlayer.php">
-                <button type="button" class="btn btn-success">Aggiungi</button>
-            </a>
-            <a href="editPlayer.php">
-                <button type="button" class="btn btn-light" onclick="">Modifica</button>
-            </a>
+            <?php
+            addButton("addPlayer.php");
+            editButton("editPlayer.php");
+            ?>
         </div>
     </div>
 
@@ -77,9 +74,7 @@
                         <td>".$line["subscribed"]."</td>";
             echo "<td>";
             // TODO: add a warning: "a player cannot be remove if it's present in a couple"
-            echo "<a href='actionPlayer.php?action=delete&id=".$line["playerID"]."'>";
-            include "templates/buttons/delete.html";
-            echo "</a>";
+            deleteButton("actionPlayer.php?action=delete&id=".$line["playerID"]);
             echo "</td></tr>";
         }
     }

@@ -1,5 +1,6 @@
 <?php
     include 'modules/db_connection.php';
+    include "templates/hotkeys.php";
 
     $connection = openConnection();
     
@@ -36,21 +37,15 @@
 
     <div>
         <div class="content" style="float: left; margin: 1em;">
-            <a href="exportCSV.php?source=events">
-                <button type="button" class="btn btn-success">Esporta Eventi</button>
-            </a>
+            <?php exportButton("exportCSV.php?source=events"); ?>
         </div>
 
         <div class="content" style="float: right; margin: 1em;">
-            <a href="addEvent.php">
-                <button type="button" class="btn btn-success">Aggiungi</button>
-            </a>
-            <a href="editEvents.php">
-                <button type="button" class="btn btn-light" onclick="">Modifica</button>
-            </a>
-            <a href="deleteEvent.php">
-                <button type="button" class="btn btn-danger" onclick="">Cancella</button>
-            </a>
+            <?php
+            addButton("addEvent.php");
+            editButton("editEvents.php");
+            deleteButton("deleteEvent.php");
+            ?>
         </div>
     </div>
 
