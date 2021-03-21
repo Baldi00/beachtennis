@@ -56,7 +56,7 @@
     echo '  <table class="table table-striped">
                     <thead>
                         <tr style="text-align: center;">
-                        <th scope="col">name</th>
+                        <th scope="col">Nome</th>
                         <th scope="col">Partecipante 1</th>
                         <th scope="col">Partecipante 2</th>
                         <th scope="col">Under</th>
