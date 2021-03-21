@@ -46,7 +46,7 @@
                 <button type="button" class="btn btn-success">Aggiungi</button>
             </a>
             <a href="editCouples.php">
-                <button type="button" class="btn btn-warning" onclick="">Modifica</button>
+                <button type="button" class="btn btn-light" onclick="">Modifica</button>
             </a>
             <a href="deleteCouple.php">
                 <button type="button" class="btn btn-danger" onclick="">Cancella</button>
