@@ -8,19 +8,19 @@ function addButton($link) {
 
 function editButton($link) {
     echo '<a href="'.$link.'">';
-    include_once 'gui/buttons/button_edit.html';
+    include 'gui/buttons/button_edit.html';
     echo '</a>';
 }
 
 function deleteButton($link) {
     echo '<a href="'.$link.'">';
-    include_once 'gui/buttons/button_delete.html';
+    include 'gui/buttons/button_delete.html';
     echo '</a>';
 }
 
 function exportButton($link) {
     echo '<a href="'.$link.'">';
-    include_once 'gui/buttons/button_export.html';
+    include 'gui/buttons/button_export.html';
     echo '</a>';
 }
 
