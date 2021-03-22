@@ -14,6 +14,7 @@ class CSV {
     }
 
     function addElement($element) {
+        // TODO: remove ; in the element if present?
         fwrite($this->file, $element.";");
     }
 
