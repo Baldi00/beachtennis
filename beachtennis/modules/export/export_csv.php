@@ -9,8 +9,8 @@ if (isset($_GET["source"])) {
         case "couples": exportCouples(); break;
         case "players": exportPlayers(); break;
         case "events": exportEvents(); break;
-        case "couplesUnder": extractCouplesUnder(); break;
-        case "matches": extractMatches(); break;
+        case "couplesUnder": exportCouplesUnder(); break;
+        case "matches": exportMatches(); break;
         // TODO: should be eventMatches?
         case "matchesEvent": exportEventMatches(); break;
         case "roundsUnder": exportRoundsUnder(); break;
@@ -105,7 +105,7 @@ function exportEvents() {
     $csv->close();
 }
 
-function extractCouplesUnder() {
+function exportCouplesUnder() {
     if (!(isset($_GET) && isset($_GET["eventID"]) && isset($_GET["under"]))) {
         header("LOCATION: index.php");
     }
@@ -158,7 +158,7 @@ function extractCouplesUnder() {
     $csv->close();
 }
 
-function extractMatches() {
+function exportMatches() {
     if (!(isset($_GET) && isset($_GET["eventID"]) && isset($_GET["under"]))) {
         header("LOCATION: index.php");
     }
