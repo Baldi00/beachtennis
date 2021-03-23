@@ -1,20 +1,50 @@
 <?php
-include_once '../../modules/db_connection.php';
-include "CSV.php";
+require "../db_connection.php";
+require "CSV.php";
 
 // TODO: create a file for every export type?
 
 if (isset($_GET["source"])) {
+    $fileName = "";
+
     switch ($_GET["source"]) {
-        case "couples": exportCouples(); break;
-        case "players": exportPlayers(); break;
-        case "events": exportEvents(); break;
-        case "couplesUnder": exportCouplesUnder(); break;
-        case "matches": exportMatches(); break;
+        case "couples":
+            $fileName = exportCouples();
+            break;
+        case "players":
+            $fileName = exportPlayers();
+            break;
+        case "events":
+            $fileName = exportEvents();
+            break;
+        case "couplesUnder":
+            $fileName = exportCouplesUnder();
+            break;
+        case "matches":
+            $fileName = exportMatches();
+            break;
         // TODO: should be eventMatches?
-        case "matchesEvent": exportEventMatches(); break;
-        case "roundsUnder": exportRoundsUnder(); break;
+        case "matchesEvent":
+            $fileName = exportEventMatches();
+            break;
+        case "roundsUnder":
+            $fileName = exportRoundsUnder();
+            break;
     }
+
+    download($fileName);
+}
+
+function download($fileName) {
+    $file = $fileName.".csv";
+    header('Content-Description: File Transfer');
+    header('Content-Disposition: attachment; filename='.basename($file));
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: '.filesize($file));
+    header("Content-Type: text/csv");
+    readfile($file);
 }
 
 function getCurrentDate() {
@@ -25,6 +55,9 @@ function getFileName($section) {
     return getCurrentDate()." - ".$section;
 }
 
+/**
+ * @return string exported file name
+ */
 function exportCouples() {
     $connection = openConnection();
     $result = $connection->query("SELECT * FROM `couples`");
@@ -55,8 +88,13 @@ function exportCouples() {
     }
 
     $csv->close();
+
+    return $fileName;
 }
 
+/**
+ * @return string exported file name
+ */
 function exportPlayers() {
     $connection = openConnection();
     $result = $connection->query("SELECT * FROM `players`");
@@ -80,8 +118,13 @@ function exportPlayers() {
     }
 
     $csv->close();
+
+    return $fileName;
 }
 
+/**
+ * @return string exported file name
+ */
 function exportEvents() {
     $connection = openConnection();
     $result = $connection->query("SELECT * FROM `events`");
@@ -103,8 +146,13 @@ function exportEvents() {
     }
 
     $csv->close();
+
+    return $fileName;
 }
 
+/**
+ * @return string exported file name
+ */
 function exportCouplesUnder() {
     if (!(isset($_GET) && isset($_GET["eventID"]) && isset($_GET["under"]))) {
         header("LOCATION: index.php");
@@ -156,8 +204,13 @@ function exportCouplesUnder() {
     }
 
     $csv->close();
+
+    return $fileName;
 }
 
+/**
+ * @return string exported file name
+ */
 function exportMatches() {
     if (!(isset($_GET) && isset($_GET["eventID"]) && isset($_GET["under"]))) {
         header("LOCATION: index.php");
@@ -220,8 +273,13 @@ function exportMatches() {
     }
 
     $csv->close();
+
+    return $fileName;
 }
 
+/**
+ * @return string exported file name
+ */
 function exportRoundsUnder() {
     if (!(isset($_GET) && isset($_GET["eventID"]) && isset($_GET["under"]))) {
         header("LOCATION: index.php");
@@ -268,8 +326,15 @@ function exportRoundsUnder() {
     }
 
     $csv->close();
+
+    return $fileName;
 }
 
+// TODO: this function returns also empty string
+//       but it's not documented.
+/**
+ * @return string exported file name
+ */
 function exportEventMatches() {
     if (!(isset($_GET) && isset($_GET["eventID"]))) {
         header("LOCATION: index.php");
@@ -362,5 +427,8 @@ function exportEventMatches() {
         }
 
         $csv->close();
+
+        return $fileName;
     }
+    return "";
 }
