@@ -94,10 +94,12 @@
 <body>
 
     <?php require "templates/navbar.php"; ?>
-    
-    <h3 align="center" style="margin-top: 10px;">Seleziona under per <?php echo $line["eventName"];?> o visualizzane le partite</h3>
 
-    <?php
+    <div class="container">
+
+        <h3 align="center" style="margin-top: 10px;">Seleziona under per <?php echo $line["eventName"];?> o visualizzane le partite</h3>
+
+        <?php
 
         $query = "SELECT under FROM couples GROUP BY under ORDER BY under";
         $result = $connection->query($query);
@@ -126,7 +128,9 @@
                         </a>';
             }
         }
-    ?>
+        ?>
+
+    </div>
 
 </body>
 </html>
