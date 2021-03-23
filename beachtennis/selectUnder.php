@@ -92,45 +92,45 @@
     <title>Beach Tennis</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="index.php">Beach Tennis</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </nav>
-    
+
+<?php require "templates/navbar.php"; ?>
+
+<div class="container">
+
     <h3 align="center" style="margin-top: 10px;">Seleziona under per <?php echo $line["eventName"];?> o visualizzane le partite</h3>
 
     <?php
 
-        $query = "SELECT under FROM couples GROUP BY under ORDER BY under";
-        $result = $connection->query($query);
+    $query = "SELECT under FROM couples GROUP BY under ORDER BY under";
+    $result = $connection->query($query);
 
-        if($result->num_rows==0){
-            echo "<h4 style='margin: 20px; text-align: center;'>Non è presente nessuna coppia. Vai in \"Tutte le coppie\" per aggiungerle</h4>";
-            echo "<div width='100%' align='center'><button class='btn btn-primary' onclick='window.location.href = \"addCouple.php\";'>Aggiungi coppia</button></div>";
-        } else {
+    if($result->num_rows==0){
+        echo "<h4 style='margin: 20px; text-align: center;'>Non è presente nessuna coppia. Vai in \"Tutte le coppie\" per aggiungerle</h4>";
+        echo "<div width='100%' align='center'><button class='btn btn-primary' onclick='window.location.href = \"addCouple.php\";'>Aggiungi coppia</button></div>";
+    } else {
 
-            echo '  <a href="matchesForEvent.php?eventID='.$_GET["eventID"].'">';
+        echo '  <a href="matchesForEvent.php?eventID='.$_GET["eventID"].'">';
+        echo '      <div class="container-fluid">
+                        <div class="rounded divAllMathces">
+                            <div style="height: 200px; vertical-align: middle; line-height: 200px" class="rounded-bottom divSiteName">TUTTE LE PARTITE</div>
+                        </div>
+                    </div>
+                </a>';
+
+        for ($i=0; $i < $result->num_rows; $i++) {
+            $line = mysqli_fetch_assoc($result);
+            echo '  <a href="couplesForEvent.php?eventID='.$_GET["eventID"].'&under='.$line["under"].'">';
             echo '      <div class="container-fluid">
-                            <div class="rounded divAllMathces">
-                                <div style="height: 200px; vertical-align: middle; line-height: 200px" class="rounded-bottom divSiteName">TUTTE LE PARTITE</div>
+                            <div class="rounded divWebsite">
+                                <div style="height: 300px; vertical-align: middle; line-height: 300px" class="rounded-bottom divSiteName">UNDER ' .$line["under"].'</div>
                             </div>
                         </div>
                     </a>';
-
-            for ($i=0; $i < $result->num_rows; $i++) {
-                $line = mysqli_fetch_assoc($result);
-                echo '  <a href="couplesForEvent.php?eventID='.$_GET["eventID"].'&under='.$line["under"].'">';
-                echo '      <div class="container-fluid">
-                                <div class="rounded divWebsite">
-                                    <div style="height: 300px; vertical-align: middle; line-height: 300px" class="rounded-bottom divSiteName">UNDER ' .$line["under"].'</div>
-                                </div>
-                            </div>
-                        </a>';
-            }
         }
+    }
     ?>
+
+</div>
 
 </body>
 </html>
