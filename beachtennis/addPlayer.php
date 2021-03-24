@@ -54,11 +54,10 @@
             </div>
         </div>
 
-        <!-- TODO: handle add player in some other way? -->
         <input type="hidden" name="action" value="add">
 
         <button type="submit" class="btn btn-success">Aggiungi</button>
-        <!-- TODO: add button "Cancel" -->
+        <button type="button" class="btn btn-light" onclick="history.back();">Annulla</button>
 
     </form>
 
