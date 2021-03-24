@@ -25,39 +25,41 @@
     <h3 align="center" style="margin-top: 10px;">Inserisci nuovo iscritto</h3>
 
     <form action="actionPlayer.php">
-        <table class="table table-striped">
-            <thead>
-            <tr style="text-align: center;">
-                <th scope="col">Nome</th>
-                <th scope="col">Data di Nascita</th>
-                <th scope="col">Numero di Telefono</th>
-                <th scope="col">Iscritto</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <th scope='row'>
-                    <div class="col-sm" width="50%">
-                        <input placeholder="Nome iscritto" class="form-control" type="text" name="name" required style="width: 100%; text-align: center;">
-                    </div>
-                </th>
-                <td>
-                    <input required placeholder="Data di Nascita" class="form-control" type="date" name="date" value="2010-01-01" style="width: 100%; text-align: center;">
-                </td>
-                <td>
-                    <input placeholder="Numero di Telefono" class="form-control" type="text" name="number" style="width: 100%; text-align: center;">
-                </td>
-                <td>
-                    <input placeholder="Iscritto" class="form-control" type="text" name="subscribed" style="width: 100%; text-align: center;">
-                </td>
-                <input type="hidden" name="action" value="add">
-            </tr>
-            </tbody>
-        </table>
 
-        <div class="row" style="margin: 10px;">
-            <div class="col-sm" colspan="2"><input class="btn btn-primary" type="submit" value="Inserisci" style="width: 100%"></div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Nome</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" name="name" placeholder="Nome">
+            </div>
         </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Data di Nascita</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="date" type="date">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Telefono</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="number" placeholder="Telefono">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Data Iscrizione</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="subscribed" placeholder="Data Iscrizione">
+            </div>
+        </div>
+
+        <!-- TODO: handle add player in some other way? -->
+        <input type="hidden" name="action" value="add">
+
+        <button type="submit" class="btn btn-success">Aggiungi</button>
+        <!-- TODO: add button "Cancel" -->
+
     </form>
 
 </div>
