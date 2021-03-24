@@ -29,7 +29,7 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Nome</label>
             <div class="col-sm-10">
-                <input class="form-control" type="text" name="name" placeholder="Nome">
+                <input class="form-control" type="text" name="name" placeholder="Nome" required>
             </div>
         </div>
 
@@ -50,7 +50,7 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Data Iscrizione</label>
             <div class="col-sm-10">
-                <input class="form-control" name="subscribed" placeholder="Data Iscrizione">
+                <input class="form-control" name="subscribed" type="date" placeholder="Data Iscrizione">
             </div>
         </div>
 
