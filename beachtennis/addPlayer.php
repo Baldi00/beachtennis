@@ -37,18 +37,18 @@
             <tbody>
             <tr>
                 <th scope='row'>
-                    <div class="col-sm" width="50%"><input placeholder="Nome iscritto" class="form-control" type="text" name="name" required style="width: 100%; text-align: center;"></div>
+                    <div class="col-sm" width="50%">
+                        <input placeholder="Nome iscritto" class="form-control" type="text" name="name" required style="width: 100%; text-align: center;">
+                    </div>
                 </th>
                 <td>
                     <input required placeholder="Data di Nascita" class="form-control" type="date" name="date" value="2010-01-01" style="width: 100%; text-align: center;">
-
                 </td>
                 <td>
                     <input placeholder="Numero di Telefono" class="form-control" type="text" name="number" style="width: 100%; text-align: center;">
                 </td>
                 <td>
                     <input placeholder="Iscritto" class="form-control" type="text" name="subscribed" style="width: 100%; text-align: center;">
-
                 </td>
                 <input type="hidden" name="action" value="add">
             </tr>
